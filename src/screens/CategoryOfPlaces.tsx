@@ -2,20 +2,25 @@ import React from "react";
 import { FlatList, StyleSheet, TouchableOpacity } from "react-native";
 import { Text, View } from "../components/Themed";
 import { RootTabScreenProps } from "../types";
-import { CategoryOfPlacesData } from "../services/PlaceService";
+import { useDispatch, useSelector } from "react-redux";
+import { selectCategory } from "../store/actions/category.action";
 
 interface CategoryOfPlacesProps extends RootTabScreenProps<"Props"> {}
 
 export const CategoryOfPlaces: React.FC<CategoryOfPlacesProps> = (props) => {
   const { navigation } = props;
+  const dispatch = useDispatch();
+
+  const categories = useSelector((state: any) => state.category.categories);
 
   const handleOnPress = (item: any) => {
-    navigation.navigate("Places", item);
+    dispatch(selectCategory(item.id));
+    navigation.navigate("Places");
   };
 
   return (
     <FlatList
-      data={CategoryOfPlacesData}
+      data={categories}
       renderItem={({ item }) => (
         <CategoryItem item={item} onPress={() => handleOnPress(item)} />
       )}

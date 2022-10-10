@@ -1,17 +1,13 @@
 import React from "react";
 import { StyleSheet } from "react-native";
+import { useSelector } from "react-redux";
 import { Text, View } from "../components/Themed";
 import { RootTabScreenProps } from "../types";
 
 interface PlaceDetailProps extends RootTabScreenProps<"Props"> {}
 
-export const PlaceDetail: React.FC<PlaceDetailProps> = (props) => {
-  const { navigation } = props;
-  const place: {
-    description: string;
-    id: number;
-    name: string;
-  } = props.route.params as any;
+export const PlaceDetail: React.FC<PlaceDetailProps> = () => {
+  const place = useSelector((state: any) => state.places.selected);
 
   return (
     <View style={styles.container}>

@@ -1,0 +1,4 @@
+export const placeTypes = {
+  SELECTED_PLACE: "SELECTED_PLACE",
+  FILTERED_PLACES: "FILTERED_PLACES",
+};

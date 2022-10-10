@@ -2,29 +2,31 @@ import React from "react";
 import { FlatList, StyleSheet, TouchableOpacity } from "react-native";
 import { Text, View } from "../components/Themed";
 import { RootTabScreenProps } from "../types";
-import { PlacesData } from "../services/PlaceService";
+import { useDispatch, useSelector } from "react-redux";
+import { filteredPlaces, selectedPlace } from "../store/actions/place.action";
 
 interface PlacesProps extends RootTabScreenProps<"Props"> {}
 
 export const Places: React.FC<PlacesProps> = (props) => {
   const { navigation } = props;
-  const category = props.route.params as any;
-
-  const Places = React.useMemo(() => {
-    return (
-      PlacesData.find((item) => item.categoryId === category.id)?.places || []
-    );
-  }, []);
+  const dispatch = useDispatch();
+  const category = useSelector((state: any) => state.category.selected);
+  const places = useSelector((state: any) => state.places.filteredPlaces);
 
   const handleOnPress = (item: any) => {
-    navigation.navigate("PlaceDetail", item);
+    dispatch(selectedPlace(item.id));
+    navigation.navigate("PlaceDetail");
   };
+
+  React.useEffect(() => {
+    dispatch(filteredPlaces(category.id));
+  }, []);
 
   return (
     <>
-      {Places.length ? (
+      {places.length ? (
         <FlatList
-          data={Places}
+          data={places}
           renderItem={({ item }) => (
             <PlaceItem item={item} onPress={() => handleOnPress(item)} />
           )}
