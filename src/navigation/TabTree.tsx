@@ -9,7 +9,7 @@ export function TabTreeNavigator() {
     <StackTabTree.Navigator>
       <StackTabTree.Screen
         options={{
-          title: "Favoritos",
+          title: "Lugares favoritos",
         }}
         name="Favorites"
         component={Favorites as any}

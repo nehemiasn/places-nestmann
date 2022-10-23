@@ -1,34 +1,28 @@
 import React from "react";
-import { FlatList, StyleSheet, TouchableOpacity } from "react-native";
+import { FlatList, StyleSheet } from "react-native";
 import { Text, View } from "../components/Themed";
 import { RootTabScreenProps } from "../types";
-import { useDispatch, useSelector } from "react-redux";
-import { filteredPlaces, selectedPlace } from "../store/actions/place.action";
+import { useSelector } from "react-redux";
+import { PlaceCard } from "../components/PlaceCard";
 
 interface PlacesProps extends RootTabScreenProps<"Props"> {}
 
 export const Places: React.FC<PlacesProps> = (props) => {
   const { navigation } = props;
-  const dispatch = useDispatch();
   const category = useSelector((state: any) => state.category.selected);
-  const places = useSelector((state: any) => state.places.filteredPlaces);
+  const places = useSelector((state: any) => state.places.data);
 
-  const handleOnPress = (item: any) => {
-    dispatch(selectedPlace(item.id));
-    navigation.navigate("PlaceDetail");
-  };
-
-  React.useEffect(() => {
-    dispatch(filteredPlaces(category.id));
-  }, []);
+  const placesByCategory = React.useMemo(() => {
+    return places.filter((p: any) => p.categoryId === category.id);
+  }, [places]);
 
   return (
     <>
-      {places.length ? (
+      {placesByCategory.length ? (
         <FlatList
-          data={places}
+          data={placesByCategory}
           renderItem={({ item }) => (
-            <PlaceItem item={item} onPress={() => handleOnPress(item)} />
+            <PlaceCard place={item} navigation={navigation} />
           )}
           keyExtractor={(item) => item.id.toString()}
           style={styles.container}
@@ -58,46 +52,5 @@ export const styles = StyleSheet.create({
   noResultText: {
     textAlign: "center",
     fontSize: 20,
-  },
-});
-
-const PlaceItem = (props: any) => {
-  return (
-    <View style={stylesPlaceItem.container}>
-      <TouchableOpacity
-        style={{
-          ...stylesPlaceItem.contentContainer,
-        }}
-        onPress={props.onPress}
-      >
-        <Text style={stylesPlaceItem.text}>{props.item.name}</Text>
-      </TouchableOpacity>
-    </View>
-  );
-};
-export default PlaceItem;
-
-export const stylesPlaceItem = StyleSheet.create({
-  container: {
-    flex: 1,
-    minHeight: 150,
-    borderRadius: 10,
-    marginHorizontal: 20,
-    marginVertical: 10,
-  },
-  contentContainer: {
-    flex: 1,
-    borderRadius: 10,
-    shadowColor: "black",
-    shadowOpacity: 0.26,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 5,
-    elevation: 4,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 16,
-  },
-  text: {
-    fontSize: 24,
   },
 });
