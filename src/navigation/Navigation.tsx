@@ -7,14 +7,15 @@ import {
 import { ColorSchemeName } from "react-native";
 import { AuthNavigator } from "./AuthNavigator";
 import { UserNavigator } from "./UserNavigator";
+import { useSelector } from "react-redux";
 
 export function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
-  const [user, setUser] = React.useState<any>();
+  const sesion = useSelector((state: any) => state.auth.sesion);
   return (
     <NavigationContainer
       theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
     >
-      {user ? <UserNavigator /> : <AuthNavigator />}
+      {sesion ? <UserNavigator /> : <AuthNavigator />}
     </NavigationContainer>
   );
 }

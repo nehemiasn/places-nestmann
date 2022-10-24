@@ -16,10 +16,9 @@ export const selectedPlace = (id: number) => ({
 });
 
 export const addFavorite = (place: any) => {
-  return async (dispatch: any, getState: any, aaa: any) => {
+  return async (dispatch: any, getState: any) => {
     try {
       const state = getState();
-      console.log(state);
       fetch(`${FIREBASE_URL_API}/favoritos.json`, {
         method: "POST",
         headers: FIREBASE_HEADERS,

@@ -1,27 +1,45 @@
 import { Link } from "@react-navigation/native";
 import React from "react";
-import { Button, StyleSheet, TextInput } from "react-native";
+import { Alert, Button, StyleSheet, TextInput } from "react-native";
+import { useDispatch } from "react-redux";
 import { Separator, View, Typography } from "../components";
+import { login } from "../store/actions/auth.action";
 import { RootTabScreenProps } from "../types";
 import { colors } from "../utils/constants";
 
 interface LoginProps extends RootTabScreenProps<"Props"> {}
 
 export const Login: React.FC<LoginProps> = () => {
+  const dispatch = useDispatch();
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
+
+  const handleLogin = () => {
+    if (!(email && email.length > 9 && email.indexOf("@") >= 0)) {
+      return Alert.alert("Error", "El email no es correcto", [
+        { text: "OK", onPress: () => {} },
+      ]);
+    }
+    if (!password) {
+      return Alert.alert("Error", "Debe ingresar una contraseña", [
+        { text: "OK", onPress: () => {} },
+      ]);
+    }
+    dispatch(login(email, password) as any);
+  };
+
   return (
     <View style={styles.container1}>
       <View style={styles.container2}>
         <Separator px={32} />
-        <Typography>Email</Typography>
+        <Typography type="OpenSans-SemiBold">Email</Typography>
         <TextInput
           style={styles.input}
           onChangeText={(ev) => setEmail(() => ev)}
           value={email}
         />
         <Separator px={16} />
-        <Typography>Contraseña</Typography>
+        <Typography type="OpenSans-SemiBold">Contraseña</Typography>
         <TextInput
           style={styles.input}
           onChangeText={(ev) => setPassword(() => ev)}
@@ -30,7 +48,7 @@ export const Login: React.FC<LoginProps> = () => {
         <Separator px={32} />
         <Button
           title="Iniciar sesion"
-          onPress={() => {}}
+          onPress={handleLogin}
           color={colors.colorPrimary}
         />
         <Separator px={48} />

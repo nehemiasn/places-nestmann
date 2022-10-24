@@ -1,43 +1,76 @@
 import { Link } from "@react-navigation/native";
 import React from "react";
-import { Button, StyleSheet, TextInput } from "react-native";
+import { Alert, Button, StyleSheet, TextInput } from "react-native";
+import { useDispatch } from "react-redux";
 import { Separator, View, Typography } from "../components";
+import { signup } from "../store/actions/auth.action";
 import { RootTabScreenProps } from "../types";
 import { colors } from "../utils/constants";
 
 interface RegisterProps extends RootTabScreenProps<"Props"> {}
 
 export const Register: React.FC<RegisterProps> = () => {
+  const dispatch = useDispatch();
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
+  const [repassword, setRepassword] = React.useState<string>("");
+
+  const handleSignup = () => {
+    if (!(email && email.length > 9 && email.indexOf("@") >= 0)) {
+      return Alert.alert("Error", "El email no es correcto", [
+        { text: "OK", onPress: () => {} },
+      ]);
+    }
+    if (!password) {
+      return Alert.alert("Error", "Debe ingresar una contraseña", [
+        { text: "OK", onPress: () => {} },
+      ]);
+    }
+    if (!(password.length >= 8)) {
+      return Alert.alert(
+        "Error",
+        "La contraseña debe tener 8 caracteres o más",
+        [{ text: "OK", onPress: () => {} }]
+      );
+    }
+    if (repassword !== password) {
+      return Alert.alert(
+        "Error",
+        "Debe ingresar la misma contraseña dos veces",
+        [{ text: "OK", onPress: () => {} }]
+      );
+    }
+    dispatch(signup(email, password) as any);
+  };
+
   return (
     <View style={styles.container1}>
       <View style={styles.container2}>
         <Separator px={32} />
-        <Typography>Email</Typography>
+        <Typography type="OpenSans-SemiBold">Email</Typography>
         <TextInput
           style={styles.input}
           onChangeText={(ev) => setEmail(() => ev)}
           value={email}
         />
         <Separator px={16} />
-        <Typography>Contraseña nueva</Typography>
+        <Typography type="OpenSans-SemiBold">Contraseña nueva</Typography>
         <TextInput
           style={styles.input}
           onChangeText={(ev) => setPassword(() => ev)}
           value={password}
         />
         <Separator px={16} />
-        <Typography>Confirmar contraseña</Typography>
+        <Typography type="OpenSans-SemiBold">Confirmar contraseña</Typography>
         <TextInput
           style={styles.input}
-          onChangeText={(ev) => setPassword(() => ev)}
-          value={password}
+          onChangeText={(ev) => setRepassword(() => ev)}
+          value={repassword}
         />
         <Separator px={32} />
         <Button
           title="Registrarme"
-          onPress={() => {}}
+          onPress={handleSignup}
           color={colors.colorPrimary}
         />
         <Separator px={48} />
