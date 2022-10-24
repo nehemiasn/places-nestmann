@@ -1,9 +1,8 @@
 import React from "react";
 import { FlatList, StyleSheet } from "react-native";
-import { Text, View } from "../components/Themed";
 import { RootTabScreenProps } from "../types";
 import { useDispatch, useSelector } from "react-redux";
-import { PlaceCard } from "../components/PlaceCard";
+import { PlaceCard, Typography, View } from "../components";
 import {
   getFavorites,
   removeAllFavorites,
@@ -48,7 +47,9 @@ export const Favorites: React.FC<FavoritesProps> = (props) => {
         />
       ) : (
         <View style={styles.noResult}>
-          <Text style={styles.noResultText}>No hay ningun favorito</Text>
+          <Typography style={styles.noResultText}>
+            No hay ningun favorito
+          </Typography>
         </View>
       )}
     </>

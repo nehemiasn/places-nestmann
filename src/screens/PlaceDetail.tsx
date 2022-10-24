@@ -1,8 +1,7 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { FavoritePlaceIcon } from "../components/FavoritePlaceIcon";
-import { Text, View } from "../components/Themed";
+import { Typography, View, FavoritePlaceIcon, Separator } from "../components";
 import { addFavorite, removeFavorite } from "../store/actions/place.action";
 import { RootTabScreenProps } from "../types";
 
@@ -15,9 +14,9 @@ export const PlaceDetail: React.FC<PlaceDetailProps> = () => {
   const handleAddAndRemoveFavorite = React.useMemo(() => {
     return () => {
       if (!place.isFavorite) {
-        dispatch(addFavorite(place.id));
+        dispatch(addFavorite(place.id) as any);
       } else {
-        dispatch(removeFavorite(place.id));
+        dispatch(removeFavorite(place.id) as any);
       }
     };
   }, [place]);
@@ -27,7 +26,7 @@ export const PlaceDetail: React.FC<PlaceDetailProps> = () => {
       <View style={styles.head1}>
         <View style={styles.head2}>
           <View style={styles.title1}>
-            <Text style={styles.title2}>{place.name}</Text>
+            <Typography style={styles.title2}>{place.name}</Typography>
           </View>
           <FavoritePlaceIcon
             isFavorite={place.isFavorite}
@@ -35,13 +34,9 @@ export const PlaceDetail: React.FC<PlaceDetailProps> = () => {
           />
         </View>
       </View>
-      <View
-        style={styles.separator}
-        lightColor="#eee"
-        darkColor="rgba(255,255,255,0.1)"
-      />
+      <Separator px={16} divider />
       <View style={styles.description}>
-        <Text>{place.description}</Text>
+        <Typography>{place.description}</Typography>
       </View>
     </View>
   );
@@ -70,11 +65,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     textAlign: "center",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
   },
   description: {
     padding: 16,

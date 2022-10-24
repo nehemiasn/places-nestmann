@@ -1,11 +1,12 @@
 import React from "react";
-import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
+import { TouchableOpacity, StyleSheet } from "react-native";
 import { useDispatch } from "react-redux";
 import {
   addFavorite,
   removeFavorite,
   selectedPlace,
-} from "../store/actions/place.action";
+} from "../../store/actions/place.action";
+import { Typography, View } from "../Base";
 import { FavoritePlaceIcon } from "./FavoritePlaceIcon";
 
 export const PlaceCard: React.FC<any> = (props) => {
@@ -35,7 +36,7 @@ export const PlaceCard: React.FC<any> = (props) => {
         }}
         onPress={handleOnPress}
       >
-        <Text style={styles.text}>{props.place.name}</Text>
+        <Typography style={styles.text}>{props.place.name}</Typography>
         <FavoritePlaceIcon
           isFavorite={place.isFavorite}
           onPress={handleAddAndRemoveFavorite}
@@ -48,7 +49,7 @@ export const PlaceCard: React.FC<any> = (props) => {
   );
 };
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     minHeight: 150,

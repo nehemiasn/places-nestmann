@@ -3,7 +3,7 @@ import { FlatList, StyleSheet } from "react-native";
 import { RootTabScreenProps } from "../types";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCategory } from "../store/actions/category.action";
-import { CategoryCard } from "../components/CategoryCard";
+import { CategoryCard } from "../components";
 
 interface CategoryOfPlacesProps extends RootTabScreenProps<"Props"> {}
 

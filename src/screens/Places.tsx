@@ -1,9 +1,8 @@
 import React from "react";
 import { FlatList, StyleSheet } from "react-native";
-import { Text, View } from "../components/Themed";
 import { RootTabScreenProps } from "../types";
 import { useSelector } from "react-redux";
-import { PlaceCard } from "../components/PlaceCard";
+import { PlaceCard, Typography, View } from "../components";
 
 interface PlacesProps extends RootTabScreenProps<"Props"> {}
 
@@ -29,9 +28,9 @@ export const Places: React.FC<PlacesProps> = (props) => {
         />
       ) : (
         <View style={styles.noResult}>
-          <Text style={styles.noResultText}>
+          <Typography style={styles.noResultText}>
             No hay resultados para mostrar
-          </Text>
+          </Typography>
         </View>
       )}
     </>

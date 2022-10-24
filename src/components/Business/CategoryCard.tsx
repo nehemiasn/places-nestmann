@@ -1,5 +1,6 @@
 import React from "react";
-import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
+import { TouchableOpacity, StyleSheet } from "react-native";
+import { Typography, View } from "../Base";
 
 export const CategoryCard: React.FC<any> = (props) => {
   return (
@@ -10,7 +11,7 @@ export const CategoryCard: React.FC<any> = (props) => {
         }}
         onPress={props.onPress}
       >
-        <Text style={styles.text}>{props.item.name}</Text>
+        <Typography style={styles.text}>{props.item.name}</Typography>
       </TouchableOpacity>
     </View>
   );
