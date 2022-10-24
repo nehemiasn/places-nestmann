@@ -1,7 +1,7 @@
 import { PlacesData } from "../../services/PlaceService";
 import { placeTypes } from "../types/place.types";
 
-const { SELECTED_PLACE, FILTERED_PLACES, ADD_FAVORITE, REMOVE_FAVORITE } =
+const { SELECTED_PLACE, ADD_FAVORITE, REMOVE_FAVORITE, GET_FAVORITES } =
   placeTypes;
 
 const initialState = {
@@ -49,6 +49,19 @@ const PlaceReducer = (state = initialState, action: any) => {
           }),
         ],
       };
+    case GET_FAVORITES:
+      if (Array.isArray(action.payload) && action.payload.length) {
+        return {
+          ...state,
+          data: [
+            ...state.data.map((item) => ({
+              ...item,
+              isFavorite: !!action.payload.find((el: any) => el.id === item.id),
+            })),
+          ],
+        };
+      }
+      return state;
     default:
       return state;
   }

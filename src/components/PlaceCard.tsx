@@ -20,9 +20,9 @@ export const PlaceCard: React.FC<any> = (props) => {
   const handleAddAndRemoveFavorite = React.useMemo(() => {
     return () => {
       if (!place.isFavorite) {
-        dispatch(addFavorite(place.id));
+        dispatch(addFavorite(place) as any);
       } else {
-        dispatch(removeFavorite(place.id));
+        dispatch(removeFavorite(place) as any);
       }
     };
   }, [place]);
@@ -52,9 +52,9 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     minHeight: 150,
-    borderRadius: 10,
-    marginHorizontal: 20,
-    marginVertical: 10,
+    borderRadius: 8,
+    marginHorizontal: 16,
+    marginVertical: 16,
     backgroundColor: "white",
   },
   contentContainer: {
