@@ -7,6 +7,7 @@ import { Navigation } from "./navigation/Navigation";
 import { ActivityIndicator, StyleSheet } from "react-native";
 import { Provider } from "react-redux";
 import store from "./store";
+import { AppContextProvider } from "./providers/AppProvider";
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
@@ -16,12 +17,14 @@ export default function App() {
     return <ActivityIndicator />;
   } else {
     return (
-      <Provider store={store as any}>
-        <SafeAreaProvider style={styles.container}>
-          <StatusBar />
-          <Navigation colorScheme={colorScheme} />
-        </SafeAreaProvider>
-      </Provider>
+      <AppContextProvider>
+        <Provider store={store as any}>
+          <SafeAreaProvider style={styles.container}>
+            <StatusBar />
+            <Navigation colorScheme={colorScheme} />
+          </SafeAreaProvider>
+        </Provider>
+      </AppContextProvider>
     );
   }
 }

@@ -22,7 +22,7 @@ export const Separator: React.FC<SeparatorProps> = (props) => {
           <View
             style={{
               height: "100%",
-              width: "1px",
+              width: 1,
               backgroundColor: "#e0e0e0",
               ...style,
             }}
@@ -52,7 +52,7 @@ export const Separator: React.FC<SeparatorProps> = (props) => {
         <View
           style={{
             width: "100%",
-            height: "1px",
+            height: 1,
             backgroundColor: "#e0e0e0",
             ...style,
           }}

@@ -35,3 +35,5 @@ export type RootTabScreenProps<Screen extends keyof RootTabParamList> =
     BottomTabScreenProps<RootTabParamList, Screen>,
     NativeStackScreenProps<RootStackParamList>
   >;
+
+export type SetterState<T> = React.Dispatch<React.SetStateAction<T>>;

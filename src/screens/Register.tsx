@@ -17,27 +17,25 @@ export const Register: React.FC<RegisterProps> = () => {
 
   const handleSignup = () => {
     if (!(email && email.length > 9 && email.indexOf("@") >= 0)) {
-      return Alert.alert("Error", "El email no es correcto", [
-        { text: "OK", onPress: () => {} },
-      ]);
+      return Alert.alert("Error", "El email no es correcto", [{ text: "OK" }]);
     }
     if (!password) {
       return Alert.alert("Error", "Debe ingresar una contraseña", [
-        { text: "OK", onPress: () => {} },
+        { text: "OK" },
       ]);
     }
     if (!(password.length >= 8)) {
       return Alert.alert(
         "Error",
         "La contraseña debe tener 8 caracteres o más",
-        [{ text: "OK", onPress: () => {} }]
+        [{ text: "OK" }]
       );
     }
     if (repassword !== password) {
       return Alert.alert(
         "Error",
         "Debe ingresar la misma contraseña dos veces",
-        [{ text: "OK", onPress: () => {} }]
+        [{ text: "OK" }]
       );
     }
     dispatch(signup(email, password) as any);
@@ -103,7 +101,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   container2: {
-    width: "250px",
+    width: 250,
   },
   title: {
     textAlign: "center",

@@ -11,18 +11,18 @@ interface LoginProps extends RootTabScreenProps<"Props"> {}
 
 export const Login: React.FC<LoginProps> = () => {
   const dispatch = useDispatch();
-  const [email, setEmail] = React.useState<string>("");
-  const [password, setPassword] = React.useState<string>("");
+  const [email, setEmail] = React.useState<string>(
+    "nehemias.nestmann@gmail.com"
+  );
+  const [password, setPassword] = React.useState<string>("Coderhouse22");
 
   const handleLogin = () => {
     if (!(email && email.length > 9 && email.indexOf("@") >= 0)) {
-      return Alert.alert("Error", "El email no es correcto", [
-        { text: "OK", onPress: () => {} },
-      ]);
+      return Alert.alert("Error", "El email no es correcto", [{ text: "OK" }]);
     }
     if (!password) {
       return Alert.alert("Error", "Debe ingresar una contraseña", [
-        { text: "OK", onPress: () => {} },
+        { text: "OK" },
       ]);
     }
     dispatch(login(email, password) as any);
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   container2: {
-    width: "250px",
+    width: 250,
   },
   title: {
     textAlign: "center",
