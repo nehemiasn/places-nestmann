@@ -16,9 +16,7 @@ export const Separator: React.FC<SeparatorProps> = (props) => {
     if (divider) {
       return (
         <View style={{ height: "100%", display: "flex" }}>
-          <View
-            style={{ minWidth: props.px || `${props.px}px`, height: "100%" }}
-          />
+          <View style={{ minWidth: props.px || props.px, height: "100%" }} />
           <View
             style={{
               height: "100%",
@@ -27,15 +25,11 @@ export const Separator: React.FC<SeparatorProps> = (props) => {
               ...style,
             }}
           />
-          <View
-            style={{ minWidth: props.px || `${props.px}px`, height: "100%" }}
-          />
+          <View style={{ minWidth: props.px || props.px, height: "100%" }} />
         </View>
       );
     }
-    return (
-      <View style={{ minWidth: props.px || `${props.px}px`, height: "100%" }} />
-    );
+    return <View style={{ minWidth: props.px || props.px, height: "100%" }} />;
   }
   if (divider) {
     return (
@@ -46,9 +40,7 @@ export const Separator: React.FC<SeparatorProps> = (props) => {
           flexDirection: "column",
         }}
       >
-        <View
-          style={{ width: "100%", minHeight: props.px || `${props.px}px` }}
-        />
+        <View style={{ width: "100%", minHeight: props.px || props.px }} />
         <View
           style={{
             width: "100%",
@@ -57,13 +49,9 @@ export const Separator: React.FC<SeparatorProps> = (props) => {
             ...style,
           }}
         />
-        <View
-          style={{ width: "100%", minHeight: props.px || `${props.px}px` }}
-        />
+        <View style={{ width: "100%", minHeight: props.px || props.px }} />
       </View>
     );
   }
-  return (
-    <View style={{ width: "100%", minHeight: props.px || `${props.px}px` }} />
-  );
+  return <View style={{ width: "100%", minHeight: props.px || props.px }} />;
 };

@@ -41,7 +41,7 @@ export function BottomTabs() {
         component={TabTreeNavigator}
         options={{
           title: "",
-          tabBarIcon: ({ color }) => <TabBarIcon name="star" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
         }}
       />
     </BottomTab.Navigator>
