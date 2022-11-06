@@ -1,31 +1,24 @@
 import React from "react";
-import {
-  FlatList,
-  Image,
-  StyleSheet,
-  TouchableHighlight,
-  useColorScheme,
-} from "react-native";
+import { Image, StyleSheet, TouchableHighlight } from "react-native";
 import { RootTabScreenProps } from "../types";
-import { useDispatch, useSelector } from "react-redux";
-import { PlaceCard, Separator, Text, Typography, View } from "../components";
-import {
-  getFavorites,
-  removeAllFavorites,
-} from "../store/actions/place.action";
+import { Separator, Typography, View } from "../components";
 import Colors from "../constants/Colors";
 import { FontAwesome } from "@expo/vector-icons";
 import { ImagePickerPro } from "../components/Business/ImagePickerPro";
 import { AppContext } from "../providers/AppProvider";
-import { getProfile } from "../db";
+import { StoreContext } from "../store/Store";
 
 interface MyProfileProps extends RootTabScreenProps<"Props"> {}
 
 export const MyProfile: React.FC<MyProfileProps> = (props) => {
   const { navigation } = props;
   const { imageUri, setImageUri } = React.useContext(AppContext);
-  const sesion = useSelector((state: any) => state.auth.sesion);
+  const { userLoggedIn } = React.useContext(StoreContext);
   const [loadCamera, setloadCamera] = React.useState<boolean>(false);
+
+  const displayName = React.useMemo(() => {
+    return `${userLoggedIn.user.firstName} ${userLoggedIn.user.lastName}`;
+  }, []);
 
   const handleGoFavorites = (item: any) => {
     navigation.navigate("Favorites");
@@ -66,7 +59,7 @@ export const MyProfile: React.FC<MyProfileProps> = (props) => {
       </View>
       <View style={styles.container2}>
         <Typography type="OpenSans-SemiBold" style={styles.name}>
-          {sesion.displayName || "Nehemias Nestmann"}
+          {displayName}
         </Typography>
         <Separator px={32} />
         <Separator px={0} divider />

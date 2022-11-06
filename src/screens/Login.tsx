@@ -1,16 +1,15 @@
 import { Link } from "@react-navigation/native";
 import React from "react";
 import { Alert, Button, StyleSheet, TextInput } from "react-native";
-import { useDispatch } from "react-redux";
 import { Separator, View, Typography } from "../components";
-import { login } from "../store/actions/auth.action";
+import { StoreContext } from "../store/Store";
 import { RootTabScreenProps } from "../types";
 import { colors } from "../utils/constants";
 
 interface LoginProps extends RootTabScreenProps<"Props"> {}
 
 export const Login: React.FC<LoginProps> = () => {
-  const dispatch = useDispatch();
+  const { userLoggedIn } = React.useContext(StoreContext);
   const [email, setEmail] = React.useState<string>(
     "nehemias.nestmann@gmail.com"
   );
@@ -25,7 +24,7 @@ export const Login: React.FC<LoginProps> = () => {
         { text: "OK" },
       ]);
     }
-    dispatch(login(email, password) as any);
+    userLoggedIn.login(email, password);
   };
 
   return (

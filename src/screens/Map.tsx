@@ -28,7 +28,7 @@ export const Map: React.FC<MapProps> = () => {
 
   return (
     <>
-      {latitude && longitude && !IS_WEB ? (
+      {/* {latitude && longitude && !IS_WEB ? (
         <MapView
           key={key}
           style={styles.container}
@@ -59,7 +59,7 @@ export const Map: React.FC<MapProps> = () => {
         <TouchableOpacity onPress={handleSetCurrentPosition}>
           <FontAwesome size={32} name="crosshairs" color="white" />
         </TouchableOpacity>
-      </View>
+      </View> */}
     </>
   );
 };

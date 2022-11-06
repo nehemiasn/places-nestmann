@@ -1,23 +1,32 @@
 import { Link } from "@react-navigation/native";
 import React from "react";
 import { Alert, Button, StyleSheet, TextInput } from "react-native";
-import { useDispatch } from "react-redux";
 import { Separator, View, Typography } from "../components";
-import { signup } from "../store/actions/auth.action";
+import { useSignupStore } from "../store/UserStore";
 import { RootTabScreenProps } from "../types";
 import { colors } from "../utils/constants";
 
 interface RegisterProps extends RootTabScreenProps<"Props"> {}
 
 export const Register: React.FC<RegisterProps> = () => {
-  const dispatch = useDispatch();
+  const { signup } = useSignupStore();
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const [repassword, setRepassword] = React.useState<string>("");
+  const [firstName, setFirstName] = React.useState<string>("");
+  const [lastName, setLastName] = React.useState<string>("");
 
   const handleSignup = () => {
     if (!(email && email.length > 9 && email.indexOf("@") >= 0)) {
       return Alert.alert("Error", "El email no es correcto", [{ text: "OK" }]);
+    }
+    if (!firstName) {
+      return Alert.alert("Error", "Debe ingresar un nombre", [{ text: "OK" }]);
+    }
+    if (!lastName) {
+      return Alert.alert("Error", "Debe ingresar un apellido", [
+        { text: "OK" },
+      ]);
     }
     if (!password) {
       return Alert.alert("Error", "Debe ingresar una contraseña", [
@@ -38,13 +47,27 @@ export const Register: React.FC<RegisterProps> = () => {
         [{ text: "OK" }]
       );
     }
-    dispatch(signup(email, password) as any);
+    signup(email, password, firstName, lastName);
   };
 
   return (
     <View style={styles.container1}>
       <View style={styles.container2}>
         <Separator px={32} />
+        <Typography type="OpenSans-SemiBold">Nombre</Typography>
+        <TextInput
+          style={styles.input}
+          onChangeText={(ev) => setFirstName(() => ev)}
+          value={firstName}
+        />
+        <Separator px={16} />
+        <Typography type="OpenSans-SemiBold">Apellido</Typography>
+        <TextInput
+          style={styles.input}
+          onChangeText={(ev) => setLastName(() => ev)}
+          value={lastName}
+        />
+        <Separator px={16} />
         <Typography type="OpenSans-SemiBold">Email</Typography>
         <TextInput
           style={styles.input}

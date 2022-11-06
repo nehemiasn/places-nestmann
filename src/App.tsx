@@ -8,14 +8,17 @@ import { ActivityIndicator, StyleSheet } from "react-native";
 import { Provider } from "react-redux";
 import store from "./store";
 import { AppContextProvider } from "./providers/AppProvider";
-import { init } from "./db";
+import { createDB, statusSQLiteDB } from "./db";
+import { StoreProvider } from "./store/Store";
 
-init()
+createDB()
   .then(() => {
-    console.log("Initialized database");
+    statusSQLiteDB.create = true;
+    console.log("statusSQLiteDB.create", statusSQLiteDB.create);
   })
   .catch((err) => {
-    console.log("Initializing db failed.", err);
+    // log
+    console.log(err);
   });
 
 export default function App() {
@@ -26,14 +29,16 @@ export default function App() {
     return <ActivityIndicator />;
   } else {
     return (
-      <AppContextProvider>
-        <Provider store={store as any}>
-          <SafeAreaProvider style={styles.container}>
-            <StatusBar />
-            <Navigation colorScheme={colorScheme} />
-          </SafeAreaProvider>
-        </Provider>
-      </AppContextProvider>
+      <StoreProvider>
+        <AppContextProvider>
+          <Provider store={store as any}>
+            <SafeAreaProvider style={styles.container}>
+              <StatusBar />
+              <Navigation colorScheme={colorScheme} />
+            </SafeAreaProvider>
+          </Provider>
+        </AppContextProvider>
+      </StoreProvider>
     );
   }
 }

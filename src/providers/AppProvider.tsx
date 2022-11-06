@@ -2,7 +2,8 @@ import React from "react";
 import { ILocation } from "../components/Base/GoogleMaps/CurrentPosition";
 import { CurrentPosition } from "../components/Base/GoogleMaps";
 import { SetterState } from "../types";
-import { updateProfile, getProfile } from "../db";
+import { View } from "../components";
+import { LoadingApp } from "../components/Business/LoadingApp";
 
 interface IAppContext {
   location: ILocation | undefined;
@@ -42,27 +43,15 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = (
 
   React.useEffect(() => {
     if (imageUri && loadComponent.current) {
-      updateProfile("", imageUri || "").catch((err) => {
-        console.log(err);
-      });
+      // addProfile("", imageUri || "").catch((err) => {
+      //   console.log(err);
+      // });
     }
   }, [imageUri]);
 
   React.useEffect(() => {
     loadComponent.current = true;
     handleGetLocation();
-    getProfile()
-      .then((res) => {
-        if (res.rows._array.length) {
-          const row: any = res.rows.item(res.rows.length - 1);
-          if (row?.image) {
-            setImageUri(() => row.image);
-          }
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
     return () => {
       loadComponent.current = false;
     };
@@ -77,7 +66,14 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = (
         setImageUri,
       }}
     >
-      {children}
+      <View
+        style={{
+          flex: 1,
+        }}
+      >
+        <LoadingApp />
+        {children}
+      </View>
     </AppContext.Provider>
   );
 };
