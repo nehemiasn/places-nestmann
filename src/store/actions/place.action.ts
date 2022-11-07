@@ -33,8 +33,9 @@ export const addFavorite = (place: any) => {
         type: ADD_FAVORITE,
         placeId: place.id,
       });
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      // log
+      console.error(err);
     }
   };
 };
@@ -50,8 +51,9 @@ export const removeFavorite = (place: any) => {
         type: REMOVE_FAVORITE,
         placeId: place.id,
       });
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      // log
+      console.error(err);
     }
   };
 };
@@ -64,8 +66,9 @@ export const removeAllFavorites = () => {
         headers: FIREBASE_HEADERS,
       });
       dispatch();
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      // log
+      console.error(err);
     }
   };
 };
@@ -100,8 +103,9 @@ export const getFavorites = () => {
         type: GET_FAVORITES,
         payload: favorites,
       });
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      // log
+      console.error(err);
     }
   };
 };

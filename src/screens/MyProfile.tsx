@@ -5,20 +5,22 @@ import { Separator, Typography, View } from "../components";
 import Colors from "../constants/Colors";
 import { FontAwesome } from "@expo/vector-icons";
 import { ImagePickerPro } from "../components/Business/ImagePickerPro";
-import { AppContext } from "../providers/AppProvider";
 import { StoreContext } from "../store/Store";
 
 interface MyProfileProps extends RootTabScreenProps<"Props"> {}
 
 export const MyProfile: React.FC<MyProfileProps> = (props) => {
   const { navigation } = props;
-  const { imageUri, setImageUri } = React.useContext(AppContext);
   const { userLoggedIn } = React.useContext(StoreContext);
   const [loadCamera, setloadCamera] = React.useState<boolean>(false);
 
+  const user = React.useMemo(() => {
+    return userLoggedIn.user;
+  }, [userLoggedIn]);
+
   const displayName = React.useMemo(() => {
-    return `${userLoggedIn.user.firstName} ${userLoggedIn.user.lastName}`;
-  }, []);
+    return `${user.firstName} ${user.lastName}`;
+  }, [user]);
 
   const handleGoFavorites = (item: any) => {
     navigation.navigate("Favorites");
@@ -30,7 +32,9 @@ export const MyProfile: React.FC<MyProfileProps> = (props) => {
         <ImagePickerPro
           onImage={(uri) => {
             setloadCamera(false);
-            setImageUri(() => uri);
+            userLoggedIn.updateUser({
+              image: uri,
+            });
           }}
           onCancel={() => {
             setloadCamera(false);
@@ -39,14 +43,14 @@ export const MyProfile: React.FC<MyProfileProps> = (props) => {
       ) : null}
       <View style={styles.container1}>
         <View style={styles.photo}>
-          {imageUri ? (
+          {user.image ? (
             <Image
               style={{
                 width: "100%",
                 height: "100%",
                 borderRadius: 75,
               }}
-              source={{ uri: imageUri }}
+              source={{ uri: user.image }}
             />
           ) : null}
           <View style={styles.photoLoad}>

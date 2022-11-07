@@ -26,8 +26,9 @@ export const signup = (email: string, password: string) => {
         type: SIGNUP,
         payload: result,
       });
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      // log
+      console.error(err);
     }
   };
 };
@@ -51,8 +52,9 @@ export const login = (email: string, password: string) => {
         type: LOGIN,
         payload: result,
       });
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      // log
+      console.error(err);
     }
   };
 };

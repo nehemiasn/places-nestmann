@@ -1,12 +1,16 @@
 import React from "react";
-import { IUser, useAuthStore, useSignupStore, useUserStore } from "./UserStore";
+import { IUser, useAuthStore, useSignupStore } from "./UserStore";
 
 interface IStore {
   userLoggedIn: {
     login: (email: string, password: string) => void;
     user: IUser;
     isUserLoaded: boolean;
-    updateUser: (update: IUser) => void;
+    updateUser: (update: {
+      firstName?: string | undefined;
+      lastName?: string | undefined;
+      image?: string | undefined;
+    }) => void;
     loading: boolean;
   };
   userRegister: {

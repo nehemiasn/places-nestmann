@@ -1,6 +1,7 @@
 import React from "react";
 import { Alert } from "react-native";
 import { addProfile, getProfile } from "../db";
+import { updateProfile } from "../db/myprofile";
 import { useLoginService, useSignupService } from "../services/UserService";
 
 export const useAuthStore = (init?: IUser) => {
@@ -15,11 +16,29 @@ export const useAuthStore = (init?: IUser) => {
     return resultLogin.loading;
   }, []);
 
-  const updateUser = (update: IUser) => {
-    setUser((v) => ({
-      ...v,
-      ...update,
-    }));
+  const updateUser = (update: {
+    firstName?: string;
+    lastName?: string;
+    image?: string;
+  }) => {
+    if (isUserLoaded) {
+      updateProfile({
+        id: user.id,
+        ...update,
+      })
+        .then((r) => {
+          if (r) {
+            setUser((v) => ({
+              ...v,
+              ...update,
+            }));
+          }
+        })
+        .catch((err) => {
+          // log
+          console.error(err);
+        });
+    }
   };
 
   const login = React.useMemo(() => {
@@ -47,8 +66,9 @@ export const useAuthStore = (init?: IUser) => {
           setUser(() => u);
         }
       })
-      .catch(() => {
+      .catch((err) => {
         // log
+        console.error(err);
       });
   }, []);
 
@@ -136,4 +156,5 @@ export interface IUser {
   password: string;
   firstName: string;
   lastName: string;
+  image: string;
 }

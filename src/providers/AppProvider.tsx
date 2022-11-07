@@ -9,15 +9,11 @@ interface IAppContext {
   location: ILocation | undefined;
   // setLocation: SetterState<ILocation | undefined>
   handleGetLocation: (callback?: (l: ILocation) => void) => void;
-  imageUri: string | undefined;
-  setImageUri: SetterState<string | undefined>;
 }
 
 const context: IAppContext = {
   location: undefined,
   handleGetLocation: () => {},
-  imageUri: undefined,
-  setImageUri: () => {},
 };
 
 export const AppContext = React.createContext(context);
@@ -31,7 +27,6 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = (
   const { children } = props as any;
   const { getLocation } = CurrentPosition();
   const [location, setLocation] = React.useState<ILocation>();
-  const [imageUri, setImageUri] = React.useState<string>();
 
   const handleGetLocation = async (callback?: (l: ILocation) => void) => {
     const location: any = await getLocation();
@@ -40,14 +35,6 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = (
       callback(location);
     }
   };
-
-  React.useEffect(() => {
-    if (imageUri && loadComponent.current) {
-      // addProfile("", imageUri || "").catch((err) => {
-      //   console.log(err);
-      // });
-    }
-  }, [imageUri]);
 
   React.useEffect(() => {
     loadComponent.current = true;
@@ -62,8 +49,6 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = (
       value={{
         location,
         handleGetLocation,
-        imageUri,
-        setImageUri,
       }}
     >
       <View
