@@ -1,5 +1,5 @@
-import { Link } from "@react-navigation/native";
 import React from "react";
+import { Link } from "@react-navigation/native";
 import { Alert, Button, StyleSheet, TextInput } from "react-native";
 import { Separator, View, Typography } from "../components";
 import { StoreContext } from "../store/Store";

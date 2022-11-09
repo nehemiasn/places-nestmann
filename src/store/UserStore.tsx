@@ -2,11 +2,14 @@ import React from "react";
 import { Alert } from "react-native";
 import { addProfile, getProfile } from "../db";
 import { updateProfile } from "../db/myprofile";
-import { useLoginService, useSignupService } from "../services/UserService";
+import {
+  useLoginUserService,
+  useSignupFirebaseUserService,
+} from "../services/UserService";
 
 export const useAuthStore = (init?: IUser) => {
   const [user, setUser] = React.useState<IUser>(init || ({} as any));
-  const [callLogin, resultLogin] = useLoginService();
+  const [callLogin, resultLogin] = useLoginUserService();
 
   const isUserLoaded = React.useMemo(() => {
     return !!user.id;
@@ -43,13 +46,12 @@ export const useAuthStore = (init?: IUser) => {
 
   const login = React.useMemo(() => {
     return (email: string, password: string) => {
-      callLogin(
-        JSON.stringify({
+      callLogin({
+        variables: {
           email,
           password,
-          returnSecureToken: true,
-        })
-      );
+        },
+      });
     };
   }, []);
 
@@ -82,7 +84,7 @@ export const useAuthStore = (init?: IUser) => {
 };
 
 export const useSignupStore = () => {
-  const [callSignup, resultSignup] = useSignupService();
+  const [callSignup, resultSignup] = useSignupFirebaseUserService();
   const form = React.useRef<{
     email: string;
     password: string;

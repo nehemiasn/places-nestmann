@@ -10,6 +10,8 @@ import store from "./store";
 import { AppContextProvider } from "./providers/AppProvider";
 import { createDB, statusSQLiteDB } from "./db";
 import { StoreProvider } from "./store/Store";
+import { CustomApolloProvider } from "./apollo";
+import { config } from "./config";
 
 createDB()
   .then(() => {
@@ -29,16 +31,18 @@ export default function App() {
     return <ActivityIndicator />;
   } else {
     return (
-      <StoreProvider>
-        <AppContextProvider>
-          <Provider store={store as any}>
-            <SafeAreaProvider style={styles.container}>
-              <StatusBar />
-              <Navigation colorScheme={colorScheme} />
-            </SafeAreaProvider>
-          </Provider>
-        </AppContextProvider>
-      </StoreProvider>
+      <CustomApolloProvider uri={config.env.apiUrl}>
+        <StoreProvider>
+          <AppContextProvider>
+            <Provider store={store as any}>
+              <SafeAreaProvider style={styles.container}>
+                <StatusBar />
+                <Navigation colorScheme={colorScheme} />
+              </SafeAreaProvider>
+            </Provider>
+          </AppContextProvider>
+        </StoreProvider>
+      </CustomApolloProvider>
     );
   }
 }
