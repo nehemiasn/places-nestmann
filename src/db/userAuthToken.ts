@@ -1,5 +1,5 @@
 import * as SQLite from "expo-sqlite";
-import { Ipayload } from "../store/UserStore";
+import { Ipayload } from "../store/User";
 import { SQLiteDB } from "./create";
 
 export const addUserAuthToken = (data: {

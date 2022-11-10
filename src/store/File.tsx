@@ -157,7 +157,7 @@ export const useCurrentUser = () => {
   };
 };
 
-export const useSignupStore = () => {
+export const useSignup = () => {
   const [callSignup, resultSignup] = useSignupUserService();
   const [callCurrentUser, resultCurrentUser] = useCurrentUserService();
 

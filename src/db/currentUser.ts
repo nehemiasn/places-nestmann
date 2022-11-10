@@ -1,5 +1,5 @@
 import * as SQLite from "expo-sqlite";
-import { IUser } from "../store/UserStore";
+import { IUser } from "../store/User";
 import { SQLiteDB } from "./create";
 
 export const addCurrentUser = (data: {

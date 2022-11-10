@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  Ipayload,
-  IUser,
-  useLogin,
-  useCurrentUser,
-  useSignupStore,
-} from "./UserStore";
+import { Ipayload, IUser, useLogin, useCurrentUser, useSignup } from "./User";
 
 interface IStore {
   loginStore: {
@@ -49,7 +43,7 @@ export interface StoreProviderProps {
 export const StoreProvider: React.FC<StoreProviderProps> = (props) => {
   const loginStore = useLogin();
   const currentUserStore = useCurrentUser();
-  const signupStore = useSignupStore();
+  const signupStore = useSignup();
 
   return (
     <StoreContext.Provider

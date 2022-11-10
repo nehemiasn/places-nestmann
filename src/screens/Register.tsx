@@ -2,14 +2,14 @@ import { Link } from "@react-navigation/native";
 import React from "react";
 import { Alert, Button, StyleSheet, TextInput } from "react-native";
 import { Separator, View, Typography } from "../components";
-import { useSignupStore } from "../store/UserStore";
+import { useSignup } from "../store/User";
 import { RootTabScreenProps } from "../types";
 import { colors } from "../utils/constants";
 
 interface RegisterProps extends RootTabScreenProps<"Props"> {}
 
 export const Register: React.FC<RegisterProps> = () => {
-  const { signup } = useSignupStore();
+  const { signup } = useSignup();
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const [repassword, setRepassword] = React.useState<string>("");

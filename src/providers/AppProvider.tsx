@@ -4,7 +4,7 @@ import { CurrentPosition } from "../components/Base/GoogleMaps";
 import { SetterState } from "../types";
 import { View } from "../components";
 import { LoadingApp } from "../components/Business/LoadingApp";
-import { Ipayload } from "../store/UserStore";
+import { Ipayload } from "../store/User";
 
 interface IAppContext {
   location: ILocation | undefined;

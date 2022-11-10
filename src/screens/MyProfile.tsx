@@ -6,6 +6,8 @@ import Colors from "../constants/Colors";
 import { FontAwesome } from "@expo/vector-icons";
 import { ImagePickerPro } from "../components/Business/ImagePickerPro";
 import { StoreContext } from "../store/Store";
+import { uploadFileUser } from "../services/FileService";
+import { base64ToFile } from "../utils/tools";
 
 interface MyProfileProps extends RootTabScreenProps<"Props"> {}
 
@@ -13,6 +15,7 @@ export const MyProfile: React.FC<MyProfileProps> = (props) => {
   const { navigation } = props;
   const { currentUserStore } = React.useContext(StoreContext);
   const [loadCamera, setloadCamera] = React.useState<boolean>(false);
+  const [loadImage, statusLoadImage] = uploadFileUser();
 
   const user = React.useMemo(() => {
     return currentUserStore.user;
@@ -22,23 +25,47 @@ export const MyProfile: React.FC<MyProfileProps> = (props) => {
     return `${user?.firstName} ${user?.lastName}`;
   }, [user]);
 
+  const handleUpload = React.useMemo(() => {
+    return async (base64: string) => {
+      try {
+        setloadCamera(false);
+        const file = await base64ToFile(
+          base64,
+          `${user?.firstName}_${user?.lastName}.jpeg`
+        );
+        loadImage({
+          variables: {
+            data: {
+              file: {
+                file,
+              },
+            },
+          },
+        });
+      } catch (err) {
+        console.error(err);
+      }
+    };
+  }, []);
+
   const handleGoFavorites = (item: any) => {
     navigation.navigate("Favorites");
   };
+
+  React.useEffect(() => {
+    if (statusLoadImage.data) {
+      currentUserStore.update({
+        imageUrl: statusLoadImage.data,
+      });
+    }
+  }, [statusLoadImage]);
 
   return (
     <View style={styles.page}>
       {loadCamera ? (
         <ImagePickerPro
-          onImage={(url) => {
-            setloadCamera(false);
-            currentUserStore.update({
-              imageUrl: url,
-            });
-          }}
-          onCancel={() => {
-            setloadCamera(false);
-          }}
+          onImage={handleUpload}
+          onCancel={() => setloadCamera(false)}
         />
       ) : null}
       <View style={styles.container1}>

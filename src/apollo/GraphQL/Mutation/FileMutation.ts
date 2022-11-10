@@ -21,3 +21,9 @@ export const DELETE_ONE_PLACE_FILE = gql`
     }
   }
 `;
+
+export const UPLOAD_FILE_USER = gql`
+  mutation uploadFileUser($data: UploadFileUserInput!) {
+    uploadFileUser(data: $data)
+  }
+`;

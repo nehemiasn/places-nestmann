@@ -22,6 +22,12 @@ import {
   SEND_PHONE_VERIFICATION_CODE,
 } from "./UserMutation";
 import { CREATE_ONE_PLACE } from "./PlaceMutation";
+import {
+  DELETE_ONE_PLACE_FILE,
+  GET_ONE_FILE,
+  UPLOAD_FILE_USER,
+  UPLOAD_ONE_PLACE_FILE,
+} from "./FileMutation";
 export const Mutation = {
   login: { name: "login", gql: LOGIN },
   signup: { name: "signup", gql: SIGNUP },
@@ -83,5 +89,21 @@ export const Mutation = {
   createOnePlace: {
     name: "createOnePlace",
     gql: CREATE_ONE_PLACE,
+  },
+  getOneFile: {
+    name: "getOneFile",
+    gql: GET_ONE_FILE,
+  },
+  uploadOnePlaceFile: {
+    name: "uploadOnePlaceFile",
+    gql: UPLOAD_ONE_PLACE_FILE,
+  },
+  deleteOnePlaceFile: {
+    name: "deleteOnePlaceFile",
+    gql: DELETE_ONE_PLACE_FILE,
+  },
+  uploadFileUser: {
+    name: "uploadFileUser",
+    gql: UPLOAD_FILE_USER,
   },
 };

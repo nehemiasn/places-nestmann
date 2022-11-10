@@ -6,7 +6,7 @@ import {
   useCustomMutation,
   useCustomQuery,
 } from "../apollo/hooks";
-import { Ipayload, IUser } from "../store/UserStore";
+import { Ipayload, IUser } from "../store/User";
 
 export const useSignupUserService = (): CustomMutationOutput<Ipayload> => {
   const [signup, request] = useCustomMutation(Mutation.signup);

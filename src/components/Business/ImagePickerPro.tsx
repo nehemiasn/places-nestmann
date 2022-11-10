@@ -1,11 +1,10 @@
 import React from "react";
 import * as ImagePicker from "expo-image-picker";
-import { Alert, Button } from "react-native";
-import { View } from "../Base";
+import { Alert } from "react-native";
 
 interface ImagePickerProProps {
   style?: React.CSSProperties;
-  onImage: (uri: string) => void;
+  onImage: (base64: string) => void;
   onCancel: () => void;
 }
 
@@ -46,11 +45,12 @@ export const ImagePickerPro: React.FC<ImagePickerProProps> = (props) => {
         allowsEditing: true,
         aspect: [4, 4],
         quality: 1,
+        base64: true,
       }).catch((error) => {
         props.onCancel();
         console.log(error);
       });
-      props.onImage(image.uri);
+      props.onImage(image.base64);
     } catch (error) {
       props.onCancel();
     }
