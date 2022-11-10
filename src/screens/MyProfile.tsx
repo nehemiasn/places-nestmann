@@ -11,15 +11,15 @@ interface MyProfileProps extends RootTabScreenProps<"Props"> {}
 
 export const MyProfile: React.FC<MyProfileProps> = (props) => {
   const { navigation } = props;
-  const { userLoggedIn } = React.useContext(StoreContext);
+  const { currentUserStore } = React.useContext(StoreContext);
   const [loadCamera, setloadCamera] = React.useState<boolean>(false);
 
   const user = React.useMemo(() => {
-    return userLoggedIn.user;
-  }, [userLoggedIn]);
+    return currentUserStore.user;
+  }, [currentUserStore]);
 
   const displayName = React.useMemo(() => {
-    return `${user.firstName} ${user.lastName}`;
+    return `${user?.firstName} ${user?.lastName}`;
   }, [user]);
 
   const handleGoFavorites = (item: any) => {
@@ -30,10 +30,10 @@ export const MyProfile: React.FC<MyProfileProps> = (props) => {
     <View style={styles.page}>
       {loadCamera ? (
         <ImagePickerPro
-          onImage={(uri) => {
+          onImage={(url) => {
             setloadCamera(false);
-            userLoggedIn.updateUser({
-              image: uri,
+            currentUserStore.update({
+              imageUrl: url,
             });
           }}
           onCancel={() => {
@@ -43,14 +43,14 @@ export const MyProfile: React.FC<MyProfileProps> = (props) => {
       ) : null}
       <View style={styles.container1}>
         <View style={styles.photo}>
-          {user.image ? (
+          {user?.imageUrl ? (
             <Image
               style={{
                 width: "100%",
                 height: "100%",
                 borderRadius: 75,
               }}
-              source={{ uri: user.image }}
+              source={{ uri: user.imageUrl }}
             />
           ) : null}
           <View style={styles.photoLoad}>

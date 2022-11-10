@@ -1,34 +1,25 @@
 import React from "react";
 import { FlatList, StyleSheet } from "react-native";
 import { RootTabScreenProps } from "../types";
-import { useDispatch, useSelector } from "react-redux";
 import { PlaceCard, Typography, View } from "../components";
-import {
-  getFavorites,
-  removeAllFavorites,
-} from "../store/actions/place.action";
 
 interface FavoritesProps extends RootTabScreenProps<"Props"> {}
 
 export const Favorites: React.FC<FavoritesProps> = (props) => {
   const loadComponent = React.useRef<boolean>(false);
   const { navigation } = props;
-  const dispatch = useDispatch();
-  const places = useSelector((state: any) => state.places.data);
 
   const favorites = React.useMemo(() => {
-    return places.filter((p: any) => p.isFavorite) as any[];
-  }, [places]);
+    return [].filter((p: any) => p.isFavorite) as any[];
+  }, []);
 
   React.useEffect(() => {
     if (!favorites.length && loadComponent.current) {
-      dispatch(removeAllFavorites() as any);
     }
   }, [favorites]);
 
   React.useEffect(() => {
     loadComponent.current = true;
-    dispatch(getFavorites() as any);
     return () => {
       loadComponent.current = false;
     };

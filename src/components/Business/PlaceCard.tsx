@@ -1,30 +1,23 @@
 import React from "react";
 import { TouchableOpacity, StyleSheet } from "react-native";
-import { useDispatch } from "react-redux";
-import {
-  addFavorite,
-  removeFavorite,
-  selectedPlace,
-} from "../../store/actions/place.action";
 import { Typography, View } from "../Base";
 import { FavoritePlaceIcon } from "./FavoritePlaceIcon";
 
 export const PlaceCard: React.FC<any> = (props) => {
   const { place, navigation } = props;
-  const dispatch = useDispatch();
 
   const handleOnPress = () => {
-    dispatch(selectedPlace(place.id));
-    navigation.navigate("PlaceDetail");
+    // dispatch(selectedPlace(place.id));
+    // navigation.navigate("PlaceDetail");
   };
 
   const handleAddAndRemoveFavorite = React.useMemo(() => {
     return () => {
-      if (!place.isFavorite) {
-        dispatch(addFavorite(place) as any);
-      } else {
-        dispatch(removeFavorite(place) as any);
-      }
+      // if (!place.isFavorite) {
+      //   dispatch(addFavorite(place) as any);
+      // } else {
+      //   dispatch(removeFavorite(place) as any);
+      // }
     };
   }, [place]);
 

@@ -6,10 +6,15 @@ import { View } from "../Base";
 interface LoadingAppProps {}
 
 export const LoadingApp: React.FC<LoadingAppProps> = () => {
-  const { userLoggedIn, userRegister } = React.useContext(StoreContext);
+  const { loginStore, signupStore, currentUserStore } =
+    React.useContext(StoreContext);
 
   const loading = React.useMemo(() => {
-    return !!(userLoggedIn.loading || userRegister.loading);
+    return !!(
+      loginStore.loading ||
+      signupStore.loading ||
+      currentUserStore.loading
+    );
   }, []);
 
   return (

@@ -10,12 +10,12 @@ import { UserNavigator } from "./UserNavigator";
 import { StoreContext } from "../store/Store";
 
 export function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
-  const { userLoggedIn } = React.useContext(StoreContext);
+  const { currentUserStore } = React.useContext(StoreContext);
   return (
     <NavigationContainer
       theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
     >
-      {userLoggedIn.isUserLoaded ? <UserNavigator /> : <AuthNavigator />}
+      {currentUserStore.isUserLoaded ? <UserNavigator /> : <AuthNavigator />}
     </NavigationContainer>
   );
 }

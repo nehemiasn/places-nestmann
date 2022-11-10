@@ -1,23 +1,20 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
 import { Typography, View, FavoritePlaceIcon, Separator } from "../components";
-import { addFavorite, removeFavorite } from "../store/actions/place.action";
 import { RootTabScreenProps } from "../types";
 
 interface PlaceDetailProps extends RootTabScreenProps<"Props"> {}
 
 export const PlaceDetail: React.FC<PlaceDetailProps> = () => {
-  const dispatch = useDispatch();
-  const place = useSelector((state: any) => state.places.selected);
+  const place = {} as any;
 
   const handleAddAndRemoveFavorite = React.useMemo(() => {
     return () => {
-      if (!place.isFavorite) {
-        dispatch(addFavorite(place.id) as any);
-      } else {
-        dispatch(removeFavorite(place.id) as any);
-      }
+      // if (!place.isFavorite) {
+      //   dispatch(addFavorite(place.id) as any);
+      // } else {
+      //   dispatch(removeFavorite(place.id) as any);
+      // }
     };
   }, [place]);
 

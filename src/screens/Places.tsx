@@ -1,15 +1,14 @@
 import React from "react";
 import { FlatList, StyleSheet } from "react-native";
 import { RootTabScreenProps } from "../types";
-import { useSelector } from "react-redux";
 import { PlaceCard, Typography, View } from "../components";
 
 interface PlacesProps extends RootTabScreenProps<"Props"> {}
 
 export const Places: React.FC<PlacesProps> = (props) => {
   const { navigation } = props;
-  const category = useSelector((state: any) => state.category.selected);
-  const places = useSelector((state: any) => state.places.data);
+  const category = {} as any;
+  const places = {} as any;
 
   const placesByCategory = React.useMemo(() => {
     return places.filter((p: any) => p.categoryId === category.id);

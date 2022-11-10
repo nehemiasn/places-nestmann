@@ -36,32 +36,41 @@ export const useCustomQuery = (config: IRequest): CustomQueryOutput<any> => {
 
   const call = React.useCallback(
     (options?: CustomQueryOptions) => {
-      const handleError = (err: ApolloServiceError) => {
-        if (loadComponent.current) {
-          setError(() => parseError(err));
-          setLoading(() => false);
-        }
-      };
+      return new Promise(
+        (
+          resolve: (data: any) => void,
+          reject: (err: ApolloServiceError) => void
+        ) => {
+          const handleError = (err: ApolloServiceError) => {
+            if (loadComponent.current) {
+              setError(() => parseError(err));
+              setLoading(() => false);
+              return reject(parseError(err));
+            }
+          };
 
-      setLoading(() => true);
-      clientQuery({
-        ...{
-          fetchPolicy: "no-cache",
-          ...options,
-        },
-        query: config.gql,
-      })
-        .then((res: any) => {
-          resultQuery(res.data[config.name])
-            .then((data: any) => {
-              if (loadComponent.current) {
-                setData(() => data);
-                setLoading(() => false);
-              }
+          setLoading(() => true);
+          clientQuery({
+            ...{
+              fetchPolicy: "no-cache",
+              ...options,
+            },
+            query: config.gql,
+          })
+            .then((res: any) => {
+              resultQuery(res.data[config.name])
+                .then((d: any) => {
+                  if (loadComponent.current) {
+                    setData(() => d);
+                    setLoading(() => false);
+                    return resolve(d);
+                  }
+                })
+                .catch(handleError);
             })
             .catch(handleError);
-        })
-        .catch(handleError);
+        }
+      );
     },
     [clientQuery, config]
   );
@@ -136,32 +145,41 @@ export const useCustomMutation = (
 
   const call = React.useCallback(
     (options?: CustomMutationOptions) => {
-      const handleError = (err: ApolloServiceError) => {
-        if (loadComponent.current) {
-          setError(() => parseError(err));
-          setLoading(() => false);
-        }
-      };
+      return new Promise(
+        (
+          resolve: (data: any) => void,
+          reject: (err: ApolloServiceError) => void
+        ) => {
+          const handleError = (err: ApolloServiceError) => {
+            if (loadComponent.current) {
+              setError(() => parseError(err));
+              setLoading(() => false);
+              return reject(parseError(err));
+            }
+          };
 
-      setLoading(() => true);
-      clientMutate({
-        ...{
-          fetchPolicy: "no-cache",
-          ...options,
-        },
-        mutation: config.gql,
-      })
-        .then((res: any) => {
-          resultQuery(res.data[config.name])
-            .then((data: any) => {
-              if (loadComponent.current) {
-                setData(() => data);
-                setLoading(() => false);
-              }
+          setLoading(() => true);
+          clientMutate({
+            ...{
+              fetchPolicy: "no-cache",
+              ...options,
+            },
+            mutation: config.gql,
+          })
+            .then((res: any) => {
+              resultQuery(res.data[config.name])
+                .then((d: any) => {
+                  if (loadComponent.current) {
+                    setData(() => d);
+                    setLoading(() => false);
+                    return resolve(d);
+                  }
+                })
+                .catch(handleError);
             })
             .catch(handleError);
-        })
-        .catch(handleError);
+        }
+      );
     },
     [clientMutate, config]
   );
@@ -277,7 +295,7 @@ export interface CustomQueryOptions<
   partialRefetch?: boolean;
   canonizeResults?: boolean;
 }
-export type CustomQueryCall = (options?: CustomQueryOptions) => void;
+export type CustomQueryCall = (options?: CustomQueryOptions) => Promise<void>;
 export type CustomQueryRequest<T> = {
   error: ApolloServiceError | undefined;
   data: T;
@@ -308,7 +326,9 @@ export interface CustomMutationOptions<
   fetchPolicy?: MutationFetchPolicy;
   keepRootFields?: boolean;
 }
-export type CustomMutationCall = (options?: CustomMutationOptions) => void;
+export type CustomMutationCall = (
+  options?: CustomMutationOptions
+) => Promise<void>;
 export type CustomMutationRequest<T> = {
   error: ApolloServiceError | undefined;
   data: T;

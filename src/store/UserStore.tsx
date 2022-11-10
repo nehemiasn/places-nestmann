@@ -1,55 +1,34 @@
 import React from "react";
 import { Alert } from "react-native";
-import { addProfile, getProfile } from "../db";
-import { updateProfile } from "../db/myprofile";
+import {
+  addCurrentUser,
+  addUserAuthToken,
+  getCurrentUser,
+  updateCurrentUser,
+  getUserAuthToken,
+} from "../db";
 import {
   useLoginUserService,
-  useSignupFirebaseUserService,
+  useSignupUserService,
+  useCurrentUserService,
 } from "../services/UserService";
 
-export const useAuthStore = (init?: IUser) => {
-  const [user, setUser] = React.useState<IUser>(init || ({} as any));
+export const useLogin = () => {
+  const [userAuthToken, setUserAuthToken] = React.useState<Ipayload>();
   const [callLogin, resultLogin] = useLoginUserService();
-
-  const isUserLoaded = React.useMemo(() => {
-    return !!user.id;
-  }, [user]);
 
   const loading = React.useMemo(() => {
     return resultLogin.loading;
-  }, []);
-
-  const updateUser = (update: {
-    firstName?: string;
-    lastName?: string;
-    image?: string;
-  }) => {
-    if (isUserLoaded) {
-      updateProfile({
-        id: user.id,
-        ...update,
-      })
-        .then((r) => {
-          if (r) {
-            setUser((v) => ({
-              ...v,
-              ...update,
-            }));
-          }
-        })
-        .catch((err) => {
-          // log
-          console.error(err);
-        });
-    }
-  };
+  }, [resultLogin]);
 
   const login = React.useMemo(() => {
     return (email: string, password: string) => {
       callLogin({
         variables: {
-          email,
-          password,
+          data: {
+            email,
+            password,
+          },
         },
       });
     };
@@ -57,15 +36,31 @@ export const useAuthStore = (init?: IUser) => {
 
   React.useEffect(() => {
     if (resultLogin.data) {
-      setUser(() => resultLogin.data);
+      addUserAuthToken(resultLogin.data)
+        .then(() => {
+          setUserAuthToken(() => resultLogin.data);
+        })
+        .catch((err) => {
+          // log
+          console.error(err);
+        });
     }
   }, [resultLogin]);
 
   React.useEffect(() => {
-    getProfile()
+    getCurrentUser()
       .then((u) => {
         if (u) {
-          setUser(() => u);
+          getUserAuthToken(u.id)
+            .then((p) => {
+              if (p) {
+                setUserAuthToken(() => p);
+              }
+            })
+            .catch((err) => {
+              // log
+              console.error(err);
+            });
         }
       })
       .catch((err) => {
@@ -76,25 +71,99 @@ export const useAuthStore = (init?: IUser) => {
 
   return {
     login,
+    loading,
+    userAuthToken,
+  };
+};
+
+export const useCurrentUser = () => {
+  const [user, setUser] = React.useState<IUser>();
+  const [callCurrentUser, resultCurrentUser] = useCurrentUserService();
+
+  const isUserLoaded = React.useMemo(() => {
+    return !!user?.id;
+  }, [user]);
+
+  const loading = React.useMemo(() => {
+    return resultCurrentUser.loading;
+  }, [resultCurrentUser]);
+
+  const update = React.useMemo(() => {
+    return (update: {
+      firstName?: string;
+      lastName?: string;
+      imageUrl?: string;
+    }) => {
+      if (user?.id) {
+        updateCurrentUser({
+          ...update,
+          id: user.id,
+        })
+          .then((r) => {
+            if (r) {
+              setUser((v) => {
+                if (v) {
+                  return {
+                    ...v,
+                    ...update,
+                  };
+                }
+                return undefined;
+              });
+            }
+          })
+          .catch((err) => {
+            // log
+            console.error(err);
+          });
+      }
+    };
+  }, [user]);
+
+  React.useEffect(() => {
+    if (resultCurrentUser.data && !user) {
+      addCurrentUser(resultCurrentUser.data)
+        .then(() => {
+          setUser(() => resultCurrentUser.data);
+        })
+        .catch((err) => {
+          // log
+          console.error(err);
+        });
+    }
+  }, [resultCurrentUser]);
+
+  React.useEffect(() => {
+    getCurrentUser()
+      .then((u) => {
+        if (u) {
+          setUser(() => u);
+        }
+      })
+      .catch((err) => {
+        // log
+        console.error(err);
+      })
+      .finally(() => {
+        callCurrentUser();
+      });
+  }, [callCurrentUser]);
+
+  return {
     user,
     isUserLoaded,
-    updateUser,
+    update,
     loading,
   };
 };
 
 export const useSignupStore = () => {
-  const [callSignup, resultSignup] = useSignupFirebaseUserService();
-  const form = React.useRef<{
-    email: string;
-    password: string;
-    firstName: string;
-    lastName: string;
-  }>();
+  const [callSignup, resultSignup] = useSignupUserService();
+  const [callCurrentUser, resultCurrentUser] = useCurrentUserService();
 
   const loading = React.useMemo(() => {
-    return resultSignup.loading;
-  }, []);
+    return resultSignup.loading || resultCurrentUser.loading;
+  }, [resultSignup, resultCurrentUser]);
 
   const signup = React.useMemo(() => {
     return (
@@ -103,47 +172,41 @@ export const useSignupStore = () => {
       firstName: string,
       lastName: string
     ) => {
-      form.current = {
-        email,
-        password,
-        firstName,
-        lastName,
-      };
-      callSignup(
-        JSON.stringify({
-          email,
-          password,
-          returnSecureToken: true,
-        })
-      );
+      callSignup({
+        variables: {
+          data: {
+            email,
+            password,
+            firstName,
+            lastName,
+          },
+        },
+      }).then(() => {
+        callCurrentUser();
+      });
     };
   }, []);
 
   React.useEffect(() => {
-    if (resultSignup.data && form.current) {
-      console.log(resultSignup.data);
-      addProfile({
-        localId: resultSignup.data.localId,
-        ...form.current,
-      })
+    if (resultCurrentUser.data) {
+      Alert.alert("Listo!", "Usuario registrado correctamente.", [
+        { text: "OK" },
+      ]);
+      addCurrentUser(resultCurrentUser.data)
         .then(() => {
-          Alert.alert("Listo!", "Usuario registrado correctamente.", [
-            { text: "OK" },
-          ]);
+          // setUser(() => resultCurrentUser.data);
         })
         .catch((err) => {
-          console.log(err);
-          Alert.alert("Error", "Ocurrio un error al intentar registrarse.", [
-            { text: "OK" },
-          ]);
+          // log
+          console.error(err);
         });
-    } else if (resultSignup.error) {
-      Alert.alert("Error", "Ocurrio un error al intentar registrarse.", [
+    } else if (resultCurrentUser.error) {
+      Alert.alert("Error", "Ocurrio un error al intentar loguearse.", [
         { text: "OK" },
       ]);
       console.log(resultSignup.error);
     }
-  }, [resultSignup]);
+  }, [resultCurrentUser]);
 
   return {
     signup,
@@ -153,10 +216,16 @@ export const useSignupStore = () => {
 
 export interface IUser {
   id: number;
-  localId: number;
-  email: string;
-  password: string;
   firstName: string;
   lastName: string;
-  image: string;
+  email: string;
+  password: string;
+  imageUrl: string;
+}
+
+export interface Ipayload {
+  accessToken: string;
+  expiration: number;
+  refreshToken: string;
+  userId: number;
 }

@@ -1,19 +1,29 @@
 import React from "react";
-import { IUser, useAuthStore, useSignupStore } from "./UserStore";
+import {
+  Ipayload,
+  IUser,
+  useLogin,
+  useCurrentUser,
+  useSignupStore,
+} from "./UserStore";
 
 interface IStore {
-  userLoggedIn: {
+  loginStore: {
     login: (email: string, password: string) => void;
-    user: IUser;
+    loading: boolean;
+    userAuthToken: Ipayload | undefined;
+  };
+  currentUserStore: {
+    user: IUser | undefined;
     isUserLoaded: boolean;
-    updateUser: (update: {
-      firstName?: string | undefined;
-      lastName?: string | undefined;
-      image?: string | undefined;
+    update: (update: {
+      firstName?: string;
+      lastName?: string;
+      imageUrl?: string;
     }) => void;
     loading: boolean;
   };
-  userRegister: {
+  signupStore: {
     signup: (
       email: string,
       password: string,
@@ -25,8 +35,9 @@ interface IStore {
 }
 
 const context: IStore = {
-  userLoggedIn: {} as any,
-  userRegister: {} as any,
+  loginStore: {} as any,
+  currentUserStore: {} as any,
+  signupStore: {} as any,
 };
 
 export const StoreContext = React.createContext(context);
@@ -36,11 +47,14 @@ export interface StoreProviderProps {
 }
 
 export const StoreProvider: React.FC<StoreProviderProps> = (props) => {
-  const userLoggedIn = useAuthStore();
-  const userRegister = useSignupStore();
+  const loginStore = useLogin();
+  const currentUserStore = useCurrentUser();
+  const signupStore = useSignupStore();
 
   return (
-    <StoreContext.Provider value={{ userLoggedIn, userRegister }}>
+    <StoreContext.Provider
+      value={{ loginStore, currentUserStore, signupStore }}
+    >
       {props.children}
     </StoreContext.Provider>
   );

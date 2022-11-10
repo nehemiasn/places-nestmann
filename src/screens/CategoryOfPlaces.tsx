@@ -1,21 +1,18 @@
 import React from "react";
 import { FlatList, StyleSheet } from "react-native";
 import { RootTabScreenProps } from "../types";
-import { useDispatch, useSelector } from "react-redux";
-import { selectCategory } from "../store/actions/category.action";
 import { CategoryCard } from "../components";
 
 interface CategoryOfPlacesProps extends RootTabScreenProps<"Props"> {}
 
 export const CategoryOfPlaces: React.FC<CategoryOfPlacesProps> = (props) => {
   const { navigation } = props;
-  const dispatch = useDispatch();
 
-  const categories = useSelector((state: any) => state.category.categories);
+  const categories = undefined;
 
   const handleOnPress = (item: any) => {
-    dispatch(selectCategory(item.id));
-    navigation.navigate("Places");
+    // dispatch(selectCategory(item.id));
+    // navigation.navigate("Places");
   };
 
   return (

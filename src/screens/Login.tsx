@@ -9,11 +9,11 @@ import { colors } from "../utils/constants";
 interface LoginProps extends RootTabScreenProps<"Props"> {}
 
 export const Login: React.FC<LoginProps> = () => {
-  const { userLoggedIn } = React.useContext(StoreContext);
+  const { loginStore } = React.useContext(StoreContext);
   const [email, setEmail] = React.useState<string>(
     "nehemias.nestmann@gmail.com"
   );
-  const [password, setPassword] = React.useState<string>("Coderhouse22");
+  const [password, setPassword] = React.useState<string>("Nehemias03");
 
   const handleLogin = () => {
     if (!(email && email.length > 9 && email.indexOf("@") >= 0)) {
@@ -24,7 +24,7 @@ export const Login: React.FC<LoginProps> = () => {
         { text: "OK" },
       ]);
     }
-    userLoggedIn.login(email, password);
+    loginStore.login(email, password);
   };
 
   return (

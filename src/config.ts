@@ -15,10 +15,10 @@ const CONFIG_ENVIRONMENTS: {
   PROD: IConfigEnv;
 } = {
   LOCAL: {
-    apiUrl: `http://localhost:4000`,
+    apiUrl: `http://localhost:4000/graphql`,
   },
   PROD: {
-    apiUrl: `http://localhost:4000`,
+    apiUrl: `http://localhost:4000/graphql`,
   },
 };
 
