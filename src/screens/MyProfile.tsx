@@ -27,29 +27,19 @@ export const MyProfile: React.FC<MyProfileProps> = (props) => {
   }, [user]);
 
   const handleUpload = React.useMemo(() => {
-    return async (base64: string) => {
-      try {
-        setloadCamera(false);
-        console.log(base64.substring(0, 50));
-        const file = await base64ToFile(
-          base64,
-          `${user?.firstName}_${user?.lastName}.jpeg`
-        );
-        console.log("file");
-        loadImage({
-          variables: {
-            data: {
-              file: {
-                file,
-              },
+    return async (file: any) => {
+      setloadCamera(false);
+      loadImage({
+        variables: {
+          data: {
+            file: {
+              file,
             },
           },
-        }).catch((err) => {
-          console.log(err);
-        });
-      } catch (err) {
-        console.log("file 2", err);
-      }
+        },
+      }).catch((err) => {
+        // console.log(err);
+      });
     };
   }, []);
 
@@ -73,6 +63,7 @@ export const MyProfile: React.FC<MyProfileProps> = (props) => {
         <ImagePickerPro
           onImage={handleUpload}
           onCancel={() => setloadCamera(false)}
+          fileName={`${user?.firstName}_${user?.lastName}`}
         />
       ) : null}
       <View style={styles.container1}>

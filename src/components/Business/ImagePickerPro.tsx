@@ -1,11 +1,15 @@
 import React from "react";
 import * as ImagePicker from "expo-image-picker";
 import { Alert } from "react-native";
+import { ReactNativeFile } from "apollo-upload-client";
+import { IS_WEB } from "../../constants";
+import { base64ToFile } from "../../utils/tools";
 
 interface ImagePickerProProps {
   style?: React.CSSProperties;
-  onImage: (base64: string) => void;
+  onImage: (file: ReactNativeFile | File) => void;
   onCancel: () => void;
+  fileName: string;
 }
 
 export const ImagePickerPro: React.FC<ImagePickerProProps> = (props) => {
@@ -45,12 +49,18 @@ export const ImagePickerPro: React.FC<ImagePickerProProps> = (props) => {
         allowsEditing: true,
         aspect: [4, 4],
         quality: 1,
-        base64: true,
       }).catch((error) => {
         props.onCancel();
         // console.log(error);
       });
-      props.onImage(image.base64);
+      const file = !IS_WEB
+        ? new ReactNativeFile({
+            uri: image.uri,
+            name: `${props.fileName}.jpeg`,
+            type: "image/jpeg",
+          })
+        : await base64ToFile(image.uri, `${props.fileName}.jpeg`);
+      props.onImage(file);
     } catch (error) {
       props.onCancel();
     }
