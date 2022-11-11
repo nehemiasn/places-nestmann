@@ -1,25 +1,39 @@
-export const CategoryOfPlacesData = [
-  {
-    id: 1,
-    name: "Cine",
-  },
-  {
-    id: 2,
-    name: "Monumentos",
-  },
-  {
-    id: 3,
-    name: "Acuarios",
-  },
-  {
-    id: 4,
-    name: "Bancos",
-  },
-  {
-    id: 5,
-    name: "Termas",
-  },
-];
+import React from "react";
+import { Mutation, Query } from "../apollo/GraphQL";
+import {
+  CustomMutationOutput,
+  CustomQueryOutput,
+  useCustomMutation,
+  useCustomQuery,
+} from "../apollo/hooks";
+import { Ipayload, IUser } from "../store/User";
+
+export const useQueryPlaceTypes = (): CustomQueryOutput<IPlaceType[]> => {
+  const [call, status] = useCustomQuery(Query.placeTypes);
+
+  const data = React.useMemo(() => {
+    return status.data || [];
+  }, [status.data]);
+
+  return [
+    call,
+    {
+      ...status,
+      data,
+    },
+  ];
+};
+
+export const useQueryPlaces = (): CustomQueryOutput<IPlaceType> => {
+  const [call, status] = useCustomQuery(Query.places);
+  return [call, status];
+};
+
+export interface IPlaceType {
+  id: number;
+  name: string;
+  description: string;
+}
 
 export const PlacesData = [
   {

@@ -1,12 +1,42 @@
 import React from "react";
+import { addPlaceTypes, createPlaceTypes, getPlaceTypes } from "../db";
+import { IPlaceType, useQueryPlaceTypes } from "../services/PlaceService";
 
-interface PlaceProps {
-  style?: React.CSSProperties;
-  className?: string;
-}
+export const usePlaceTypes = () => {
+  const [_data, setData] = React.useState<IPlaceType[]>([]);
+  const [call, status] = useQueryPlaceTypes();
 
-export const Place: React.FC<PlaceProps> = (props) => {
-  const { style, className } = props;
+  const data = React.useMemo(() => {
+    return status.data.length ? status.data : _data;
+  }, [_data, status.data]);
 
-  return <div style={style} className={className}></div>;
+  React.useEffect(() => {
+    getPlaceTypes()
+      .then((res) => {
+        setData(() => res);
+      })
+      .catch(() => {
+        // log
+      })
+      .finally(() => {
+        call();
+      });
+  }, []);
+
+  React.useEffect(() => {
+    if (status.data.length) {
+      createPlaceTypes()
+        .then(() => {
+          addPlaceTypes(status.data);
+        })
+        .catch(() => {
+          // log
+        });
+    }
+  }, [status.data]);
+
+  return {
+    ...status,
+    data,
+  };
 };

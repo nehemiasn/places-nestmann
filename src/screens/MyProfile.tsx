@@ -94,13 +94,21 @@ export const MyProfile: React.FC<MyProfileProps> = (props) => {
         <Separator px={0} divider />
         <TouchableHighlight onPress={handleGoFavorites}>
           <View style={styles.favorites}>
-            <Typography type="OpenSans-SemiBold">Mis favoritos</Typography>
+            <Typography type="OpenSans-SemiBold">Mis lugares</Typography>
             <Typography type="OpenSans-Regular">
               <FontAwesome size={20} name="arrow-right" />
             </Typography>
           </View>
         </TouchableHighlight>
         <Separator px={0} divider />
+        <TouchableHighlight onPress={handleGoFavorites}>
+          <View style={styles.favorites}>
+            <Typography type="OpenSans-SemiBold">Mis favoritos</Typography>
+            <Typography type="OpenSans-Regular">
+              <FontAwesome size={20} name="arrow-right" />
+            </Typography>
+          </View>
+        </TouchableHighlight>
       </View>
     </View>
   );

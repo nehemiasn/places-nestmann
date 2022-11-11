@@ -136,6 +136,12 @@ export const useCurrentUser = () => {
   }, [resultCurrentUser.data]);
 
   React.useEffect(() => {
+    if (resultCurrentUser.data && user) {
+      update(resultCurrentUser.data);
+    }
+  }, [resultCurrentUser.data]);
+
+  React.useEffect(() => {
     getCurrentUser()
       .then((u) => {
         if (u) {

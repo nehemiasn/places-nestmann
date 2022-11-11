@@ -2,13 +2,12 @@ import React from "react";
 import { FlatList, StyleSheet } from "react-native";
 import { RootTabScreenProps } from "../types";
 import { CategoryCard } from "../components";
+import { StoreContext } from "../store/Store";
 
 interface CategoryOfPlacesProps extends RootTabScreenProps<"Props"> {}
 
-export const CategoryOfPlaces: React.FC<CategoryOfPlacesProps> = (props) => {
-  const { navigation } = props;
-
-  const categories = undefined;
+export const CategoryOfPlaces: React.FC<CategoryOfPlacesProps> = () => {
+  const { placeTypes } = React.useContext(StoreContext);
 
   const handleOnPress = (item: any) => {
     // dispatch(selectCategory(item.id));
@@ -17,7 +16,7 @@ export const CategoryOfPlaces: React.FC<CategoryOfPlacesProps> = (props) => {
 
   return (
     <FlatList
-      data={categories}
+      data={placeTypes.data}
       renderItem={({ item }) => (
         <CategoryCard item={item} onPress={() => handleOnPress(item)} />
       )}

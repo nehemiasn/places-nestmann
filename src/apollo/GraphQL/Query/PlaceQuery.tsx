@@ -2,8 +2,8 @@ import { gql } from "@apollo/client";
 import { FragmentService } from "../FragmentService";
 
 export const PLACE = gql`
-  query request($where: PlaceWhereUniqueInput!) {
-    request(where: $where) {
+  query place($where: PlaceWhereUniqueInput!) {
+    place(where: $where) {
       ...FPlace
     }
   }
@@ -11,7 +11,7 @@ export const PLACE = gql`
 `;
 
 export const PLACES = gql`
-  query requests(
+  query places(
     $where: PlaceWhereInput
     $orderBy: [PlaceOrderByWithRelationInput]
     $cursor: PlaceWhereUniqueInput
@@ -19,7 +19,7 @@ export const PLACES = gql`
     $skip: Int
     $distinct: [PlaceScalarFieldEnum]
   ) {
-    requests(
+    places(
       where: $where
       orderBy: $orderBy
       cursor: $cursor

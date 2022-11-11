@@ -2,8 +2,8 @@ import { gql } from "@apollo/client";
 import { FragmentService } from "../FragmentService";
 
 export const PLACE_TYPE = gql`
-  query requestType($where: PlaceTypeWhereUniqueInput!) {
-    requestType(where: $where) {
+  query placeType($where: PlaceTypeWhereUniqueInput!) {
+    placeType(where: $where) {
       ...FPlaceType
     }
   }
@@ -11,7 +11,7 @@ export const PLACE_TYPE = gql`
 `;
 
 export const PLACE_TYPES = gql`
-  query requestTypes(
+  query placeTypes(
     $where: PlaceTypeWhereInput
     $orderBy: [PlaceTypeOrderByWithRelationInput]
     $cursor: PlaceTypeWhereUniqueInput
@@ -19,7 +19,7 @@ export const PLACE_TYPES = gql`
     $skip: Int
     $distinct: [PlaceTypeScalarFieldEnum]
   ) {
-    requestTypes(
+    placeTypes(
       where: $where
       orderBy: $orderBy
       cursor: $cursor

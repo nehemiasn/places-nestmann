@@ -2,8 +2,8 @@ import { gql } from "@apollo/client";
 import { FragmentService } from "../FragmentService";
 
 export const PLACE_FILE = gql`
-  query requestFile($where: PlaceFileWhereUniqueInput!) {
-    requestFile(where: $where) {
+  query placeFile($where: PlaceFileWhereUniqueInput!) {
+    placeFile(where: $where) {
       ...FPlaceFile
     }
   }
@@ -11,7 +11,7 @@ export const PLACE_FILE = gql`
 `;
 
 export const PLACE_FILES = gql`
-  query requestFiles(
+  query placeFiles(
     $where: PlaceFileWhereInput
     $orderBy: [PlaceFileOrderByWithRelationInput]
     $cursor: PlaceFileWhereUniqueInput
@@ -19,7 +19,7 @@ export const PLACE_FILES = gql`
     $skip: Int
     $distinct: [PlaceFileScalarFieldEnum]
   ) {
-    requestFiles(
+    placeFiles(
       where: $where
       orderBy: $orderBy
       cursor: $cursor

@@ -25,6 +25,7 @@ FragmentService.PlaceType = gql`
   fragment FPlaceType on PlaceType {
     id
     name
+    description
   }
 `;
 
@@ -38,10 +39,10 @@ FragmentService.PlaceFile = gql`
 FragmentService.Place = gql`
   fragment FPlace on Place {
     id
-    requestType {
+    placeType {
       ...FPlaceType
     }
-    requestFile {
+    placeFile {
       ...FPlaceFile
     }
   }

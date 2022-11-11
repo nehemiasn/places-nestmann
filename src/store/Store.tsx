@@ -1,4 +1,7 @@
 import React from "react";
+import { ApolloServiceError } from "../apollo/hooks";
+import { IPlaceType } from "../services/PlaceService";
+import { usePlaceTypes } from "./Place";
 import { Ipayload, IUser, useLogin, useCurrentUser, useSignup } from "./User";
 
 interface IStore {
@@ -27,12 +30,18 @@ interface IStore {
     ) => void;
     loading: boolean;
   };
+  placeTypes: {
+    error: ApolloServiceError | undefined;
+    data: IPlaceType[];
+    loading: boolean;
+  };
 }
 
 const context: IStore = {
   loginStore: {} as any,
   currentUserStore: {} as any,
   signupStore: {} as any,
+  placeTypes: {} as any,
 };
 
 export const StoreContext = React.createContext(context);
@@ -45,10 +54,11 @@ export const StoreProvider: React.FC<StoreProviderProps> = (props) => {
   const loginStore = useLogin();
   const currentUserStore = useCurrentUser();
   const signupStore = useSignup();
+  const placeTypes = usePlaceTypes();
 
   return (
     <StoreContext.Provider
-      value={{ loginStore, currentUserStore, signupStore }}
+      value={{ loginStore, currentUserStore, signupStore, placeTypes }}
     >
       {props.children}
     </StoreContext.Provider>
