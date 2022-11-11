@@ -7,16 +7,15 @@ export const addCurrentUser = (data: {
   firstName: string;
   lastName: string;
   email: string;
-  password: string;
   imageUrl?: string;
 }) => {
   return new Promise(
     (resolve: (value: SQLite.SQLResultSet) => void, reject) => {
-      const { id, firstName, lastName, email, password, imageUrl } = data;
+      const { id, firstName, lastName, email, imageUrl } = data;
       SQLiteDB.transaction((tx) => {
         tx.executeSql(
-          "INSERT INTO currentUser (id, firstName, lastName, email, password, imageUrl) VALUES (?, ?, ?, ?, ?, ?);",
-          [id, firstName, lastName, email, password, imageUrl || ""],
+          "INSERT INTO currentUser (id, firstName, lastName, email, imageUrl) VALUES (?, ?, ?, ?, ?);",
+          [id, firstName, lastName, email, imageUrl || ""],
           (_, result) => {
             resolve(result);
           },

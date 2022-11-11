@@ -19,7 +19,7 @@ export const useLogin = () => {
 
   const loading = React.useMemo(() => {
     return resultLogin.loading;
-  }, [resultLogin]);
+  }, [resultLogin.loading]);
 
   const login = React.useMemo(() => {
     return (email: string, password: string) => {
@@ -30,6 +30,9 @@ export const useLogin = () => {
             password,
           },
         },
+      }).catch((err) => {
+        // log
+        console.error(err);
       });
     };
   }, []);
@@ -42,10 +45,10 @@ export const useLogin = () => {
         })
         .catch((err) => {
           // log
-          console.error(err);
+          // console.error(err);
         });
     }
-  }, [resultLogin]);
+  }, [resultLogin.data]);
 
   React.useEffect(() => {
     getCurrentUser()
@@ -59,13 +62,13 @@ export const useLogin = () => {
             })
             .catch((err) => {
               // log
-              console.error(err);
+              // console.error(err);
             });
         }
       })
       .catch((err) => {
         // log
-        console.error(err);
+        // console.error(err);
       });
   }, []);
 
@@ -86,39 +89,38 @@ export const useCurrentUser = () => {
 
   const loading = React.useMemo(() => {
     return resultCurrentUser.loading;
-  }, [resultCurrentUser]);
+  }, [resultCurrentUser.loading]);
 
   const update = React.useMemo(() => {
     return (update: {
+      id: number;
       firstName?: string;
       lastName?: string;
       imageUrl?: string;
     }) => {
-      if (user?.id) {
-        updateCurrentUser({
-          ...update,
-          id: user.id,
+      updateCurrentUser({
+        ...update,
+      })
+        .then((r) => {
+          if (r) {
+            console.log("3");
+            setUser((v) => {
+              if (v) {
+                return {
+                  ...v,
+                  ...update,
+                };
+              }
+              return undefined;
+            });
+          }
         })
-          .then((r) => {
-            if (r) {
-              setUser((v) => {
-                if (v) {
-                  return {
-                    ...v,
-                    ...update,
-                  };
-                }
-                return undefined;
-              });
-            }
-          })
-          .catch((err) => {
-            // log
-            console.error(err);
-          });
-      }
+        .catch((err) => {
+          // log
+          // console.error(err);
+        });
     };
-  }, [user]);
+  }, []);
 
   React.useEffect(() => {
     if (resultCurrentUser.data && !user) {
@@ -128,10 +130,10 @@ export const useCurrentUser = () => {
         })
         .catch((err) => {
           // log
-          console.error(err);
+          // console.error(err);
         });
     }
-  }, [resultCurrentUser]);
+  }, [resultCurrentUser.data]);
 
   React.useEffect(() => {
     getCurrentUser()
@@ -142,10 +144,13 @@ export const useCurrentUser = () => {
       })
       .catch((err) => {
         // log
-        console.error(err);
+        // console.error(err);
       })
       .finally(() => {
-        callCurrentUser();
+        callCurrentUser().catch((err) => {
+          // log
+          // console.error(err);
+        });
       });
   }, [callCurrentUser]);
 
@@ -163,7 +168,7 @@ export const useSignup = () => {
 
   const loading = React.useMemo(() => {
     return resultSignup.loading || resultCurrentUser.loading;
-  }, [resultSignup, resultCurrentUser]);
+  }, [resultSignup.loading, resultCurrentUser.loading]);
 
   const signup = React.useMemo(() => {
     return (
@@ -181,9 +186,17 @@ export const useSignup = () => {
             lastName,
           },
         },
-      }).then(() => {
-        callCurrentUser();
-      });
+      })
+        .then(() => {
+          callCurrentUser().catch((err) => {
+            // log
+            // console.error(err);
+          });
+        })
+        .catch((err) => {
+          // log
+          // console.error(err);
+        });
     };
   }, []);
 
@@ -198,15 +211,15 @@ export const useSignup = () => {
         })
         .catch((err) => {
           // log
-          console.error(err);
+          // console.error(err);
         });
     } else if (resultCurrentUser.error) {
       Alert.alert("Error", "Ocurrio un error al intentar loguearse.", [
         { text: "OK" },
       ]);
-      console.log(resultSignup.error);
+      // console.log(resultSignup.error);
     }
-  }, [resultCurrentUser]);
+  }, [resultCurrentUser.data, resultCurrentUser.error]);
 
   return {
     signup,

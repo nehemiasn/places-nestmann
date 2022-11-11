@@ -13,7 +13,7 @@ export const ImagePickerPro: React.FC<ImagePickerProProps> = (props) => {
     try {
       const result = await ImagePicker.requestCameraPermissionsAsync().catch(
         (error) => {
-          console.log(error);
+          // console.log(error);
         }
       );
 
@@ -30,7 +30,7 @@ export const ImagePickerPro: React.FC<ImagePickerProProps> = (props) => {
       return false;
     } catch (error) {
       props.onCancel();
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -48,7 +48,7 @@ export const ImagePickerPro: React.FC<ImagePickerProProps> = (props) => {
         base64: true,
       }).catch((error) => {
         props.onCancel();
-        console.log(error);
+        // console.log(error);
       });
       props.onImage(image.base64);
     } catch (error) {

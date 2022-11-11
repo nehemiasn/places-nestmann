@@ -44,10 +44,9 @@ export const createDB = () => {
         const firstName = "firstName TEXT NOT NULL";
         const lastName = "lastName TEXT NOT NULL";
         const email = "email TEXT NOT NULL";
-        const password = "password TEXT NOT NULL";
         const imageUrl = "imageUrl TEXT NOT NULL";
         tx.executeSql(
-          `CREATE TABLE IF NOT EXISTS currentUser (${id}, ${firstName}, ${lastName}, ${email}, ${password}, ${imageUrl});`,
+          `CREATE TABLE IF NOT EXISTS currentUser (${id}, ${firstName}, ${lastName}, ${email}, ${imageUrl});`,
           [],
           () => resolve(true),
           (_, err) => reject(err) as any

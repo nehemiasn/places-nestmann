@@ -8,6 +8,7 @@ FragmentService.User = gql`
     firstName
     lastName
     email
+    imageUrl
   }
 `;
 
@@ -22,13 +23,6 @@ FragmentService.AuthPayload = gql`
 
 FragmentService.PlaceType = gql`
   fragment FPlaceType on PlaceType {
-    id
-    name
-  }
-`;
-
-FragmentService.PlaceState = gql`
-  fragment FPlaceState on PlaceState {
     id
     name
   }

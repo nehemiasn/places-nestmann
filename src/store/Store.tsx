@@ -11,6 +11,7 @@ interface IStore {
     user: IUser | undefined;
     isUserLoaded: boolean;
     update: (update: {
+      id: number;
       firstName?: string;
       lastName?: string;
       imageUrl?: string;

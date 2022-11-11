@@ -6,7 +6,7 @@ import Colors from "../constants/Colors";
 import { FontAwesome } from "@expo/vector-icons";
 import { ImagePickerPro } from "../components/Business/ImagePickerPro";
 import { StoreContext } from "../store/Store";
-import { uploadFileUser } from "../services/FileService";
+import { useUploadFileUserService } from "../services/FileService";
 import { base64ToFile } from "../utils/tools";
 
 interface MyProfileProps extends RootTabScreenProps<"Props"> {}
@@ -15,11 +15,12 @@ export const MyProfile: React.FC<MyProfileProps> = (props) => {
   const { navigation } = props;
   const { currentUserStore } = React.useContext(StoreContext);
   const [loadCamera, setloadCamera] = React.useState<boolean>(false);
-  const [loadImage, statusLoadImage] = uploadFileUser();
+  const [loadImage, statusLoadImage] = useUploadFileUserService();
 
   const user = React.useMemo(() => {
+    console.log(currentUserStore.user);
     return currentUserStore.user;
-  }, [currentUserStore]);
+  }, [currentUserStore.user]);
 
   const displayName = React.useMemo(() => {
     return `${user?.firstName} ${user?.lastName}`;
@@ -29,10 +30,12 @@ export const MyProfile: React.FC<MyProfileProps> = (props) => {
     return async (base64: string) => {
       try {
         setloadCamera(false);
+        console.log(base64.substring(0, 50));
         const file = await base64ToFile(
           base64,
           `${user?.firstName}_${user?.lastName}.jpeg`
         );
+        console.log("file");
         loadImage({
           variables: {
             data: {
@@ -41,9 +44,11 @@ export const MyProfile: React.FC<MyProfileProps> = (props) => {
               },
             },
           },
+        }).catch((err) => {
+          console.log(err);
         });
       } catch (err) {
-        console.error(err);
+        console.log("file 2", err);
       }
     };
   }, []);
@@ -53,12 +58,14 @@ export const MyProfile: React.FC<MyProfileProps> = (props) => {
   };
 
   React.useEffect(() => {
-    if (statusLoadImage.data) {
+    console.log("statusLoadImage");
+    if (statusLoadImage.data && user) {
       currentUserStore.update({
+        id: user.id,
         imageUrl: statusLoadImage.data,
       });
     }
-  }, [statusLoadImage]);
+  }, [statusLoadImage.data]);
 
   return (
     <View style={styles.page}>

@@ -1,4 +1,3 @@
-import React from "react";
 import { Mutation, Query } from "../apollo/GraphQL";
 import {
   CustomMutationOutput,

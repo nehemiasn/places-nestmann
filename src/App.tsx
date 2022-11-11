@@ -15,11 +15,11 @@ import { BusinessContextProvider } from "./providers/BusinessProvider";
 createDB()
   .then(() => {
     statusSQLiteDB.create = true;
-    console.log("statusSQLiteDB.create", statusSQLiteDB.create);
+    // console.log("statusSQLiteDB.create", statusSQLiteDB.create);
   })
   .catch((err) => {
     // log
-    console.log(err);
+    // console.log(err);
   });
 
 export const AppContent: React.FC = () => {
