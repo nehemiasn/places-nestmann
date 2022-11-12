@@ -32,20 +32,25 @@ FragmentService.PlaceType = gql`
 FragmentService.PlaceFile = gql`
   fragment FPlaceFile on PlaceFile {
     id
-    fileName
+    placeId
+    imageUrl
   }
 `;
 
 FragmentService.Place = gql`
   fragment FPlace on Place {
     id
-    placeType {
-      ...FPlaceType
-    }
-    placeFile {
+    userId
+    name
+    googlePlaceId
+    latitude
+    longitude
+    description
+    infoGoogle
+    placeTypeId
+    placeFiles {
       ...FPlaceFile
     }
   }
-  ${FragmentService.PlaceType}
   ${FragmentService.PlaceFile}
 `;

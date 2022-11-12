@@ -1,24 +1,24 @@
 import { IPlaceType } from "../services/PlaceService";
 import { SQLiteDB } from "./create";
 
-export const createPlaces = () => {
+export const createPlaceTypes = () => {
   return new Promise((resolve: (result: boolean) => void, reject) => {
     try {
       SQLiteDB.transaction((tx) => {
         tx.executeSql(
-          `DROP TABLE IF EXISTS places;`,
+          `DROP TABLE IF EXISTS placeTypes;`,
           [],
           () => {},
           (_, err) => {
             throw new Error(err.message);
           }
         );
-        const createPlaces = () => {
+        const createPlaceTypes = () => {
           const id = "id INT NOT NULL";
           const name = "name TEXT NOT NULL";
           const description = "description TEXT";
           tx.executeSql(
-            `CREATE TABLE IF NOT EXISTS places (${id}, ${name}, ${description});`,
+            `CREATE TABLE IF NOT EXISTS placeTypes (${id}, ${name}, ${description});`,
             [],
             () => resolve(true),
             (_, err) => {
@@ -26,7 +26,7 @@ export const createPlaces = () => {
             }
           );
         };
-        createPlaces();
+        createPlaceTypes();
       });
     } catch (error) {
       reject(error);
@@ -34,7 +34,7 @@ export const createPlaces = () => {
   });
 };
 
-export const addPlaces = (
+export const addPlaceTypes = (
   data: {
     id: number;
     name: string;
@@ -47,7 +47,7 @@ export const addPlaces = (
         for (const iterator of data) {
           const { id, name, description } = iterator;
           tx.executeSql(
-            "INSERT INTO places (id, name, description) VALUES (?, ?, ?);",
+            "INSERT INTO placeTypes (id, name, description) VALUES (?, ?, ?);",
             [id, name, description],
             () => {},
             (_, err) => {
@@ -63,11 +63,11 @@ export const addPlaces = (
   });
 };
 
-export const getPlaces = () => {
+export const getPlaceTypes = () => {
   return new Promise((resolve: (value: IPlaceType[]) => void, reject) => {
     SQLiteDB.transaction((tx) => {
       tx.executeSql(
-        "SELECT * FROM places",
+        "SELECT * FROM placeTypes",
         [],
         (_, res: any) => {
           if (res.rows.length) {

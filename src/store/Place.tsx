@@ -1,6 +1,11 @@
 import React from "react";
 import { addPlaceTypes, createPlaceTypes, getPlaceTypes } from "../db";
-import { IPlaceType, useQueryPlaceTypes } from "../services/PlaceService";
+import {
+  IPlace,
+  IPlaceType,
+  useQueryPlaces,
+  useQueryPlaceTypes,
+} from "../services/PlaceService";
 
 export const usePlaceTypes = () => {
   const [_data, setData] = React.useState<IPlaceType[]>([]);
@@ -38,5 +43,33 @@ export const usePlaceTypes = () => {
   return {
     ...status,
     data,
+  };
+};
+
+export const useViewPlace = () => {
+  const [placeType, setPlaceType] = React.useState<IPlaceType>();
+  const [place, setPlace] = React.useState<IPlace>();
+  const [callPlaces, statusPlaces] = useQueryPlaces();
+
+  React.useEffect(() => {
+    if (placeType?.id) {
+      callPlaces({
+        variables: {
+          where: {
+            placeTypeId: {
+              equals: placeType.id,
+            },
+          },
+        },
+      });
+    }
+  }, [placeType]);
+
+  return {
+    placeType,
+    setPlaceType,
+    ...statusPlaces,
+    place,
+    setPlace,
   };
 };

@@ -1,12 +1,17 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 import { Typography, View, FavoritePlaceIcon, Separator } from "../components";
+import { StoreContext } from "../store/Store";
 import { RootTabScreenProps } from "../types";
 
 interface PlaceDetailProps extends RootTabScreenProps<"Props"> {}
 
 export const PlaceDetail: React.FC<PlaceDetailProps> = () => {
-  const place = {} as any;
+  const { viewPlace } = React.useContext(StoreContext);
+
+  const place = React.useMemo(() => {
+    return viewPlace.place || ({} as any);
+  }, [viewPlace.place]);
 
   const handleAddAndRemoveFavorite = React.useMemo(() => {
     return () => {
@@ -16,7 +21,7 @@ export const PlaceDetail: React.FC<PlaceDetailProps> = () => {
       //   dispatch(removeFavorite(place.id) as any);
       // }
     };
-  }, [place]);
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -25,10 +30,10 @@ export const PlaceDetail: React.FC<PlaceDetailProps> = () => {
           <View style={styles.title1}>
             <Typography style={styles.title2}>{place.name}</Typography>
           </View>
-          <FavoritePlaceIcon
+          {/* <FavoritePlaceIcon
             isFavorite={place.isFavorite}
             onPress={handleAddAndRemoveFavorite}
-          />
+          /> */}
         </View>
       </View>
       <Separator px={16} divider />

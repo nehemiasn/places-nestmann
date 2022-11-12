@@ -1,15 +1,16 @@
 import React from "react";
 import { TouchableOpacity, StyleSheet } from "react-native";
+import { IPlace } from "../../services/PlaceService";
 import { Typography, View } from "../Base";
 import { FavoritePlaceIcon } from "./FavoritePlaceIcon";
 
-export const PlaceCard: React.FC<any> = (props) => {
-  const { place, navigation } = props;
+interface PlaceCardProps {
+  place: IPlace;
+  onClick?: () => void;
+}
 
-  const handleOnPress = () => {
-    // dispatch(selectedPlace(place.id));
-    // navigation.navigate("PlaceDetail");
-  };
+export const PlaceCard: React.FC<PlaceCardProps> = (props) => {
+  const { place, onClick } = props;
 
   const handleAddAndRemoveFavorite = React.useMemo(() => {
     return () => {
@@ -27,16 +28,16 @@ export const PlaceCard: React.FC<any> = (props) => {
         style={{
           ...styles.contentContainer,
         }}
-        onPress={handleOnPress}
+        onPress={onClick}
       >
         <Typography style={styles.text}>{props.place.name}</Typography>
-        <FavoritePlaceIcon
+        {/* <FavoritePlaceIcon
           isFavorite={place.isFavorite}
           onPress={handleAddAndRemoveFavorite}
           style={{
             top: 16,
           }}
-        />
+        /> */}
       </TouchableOpacity>
     </View>
   );

@@ -24,15 +24,44 @@ export const useQueryPlaceTypes = (): CustomQueryOutput<IPlaceType[]> => {
   ];
 };
 
-export const useQueryPlaces = (): CustomQueryOutput<IPlaceType> => {
+export const useQueryPlaces = (): CustomQueryOutput<IPlace[]> => {
   const [call, status] = useCustomQuery(Query.places);
-  return [call, status];
+
+  const data = React.useMemo(() => {
+    return status.data || [];
+  }, [status.data]);
+
+  return [
+    call,
+    {
+      ...status,
+      data,
+    },
+  ];
 };
 
 export interface IPlaceType {
   id: number;
   name: string;
   description: string;
+}
+export interface IPlace {
+  id: number;
+  userId: number;
+  name: string;
+  googlePlaceId: number;
+  latitude: number;
+  longitude: number;
+  description: string;
+  infoGoogle: string;
+  placeTypeId: number;
+  placeFiles: IPlaceFile[];
+}
+
+export interface IPlaceFile {
+  id: number;
+  placeId: number;
+  imageUrl: string;
 }
 
 export const PlacesData = [

@@ -2,25 +2,29 @@ import React from "react";
 import { FlatList, StyleSheet } from "react-native";
 import { RootTabScreenProps } from "../types";
 import { PlaceCard, Typography, View } from "../components";
+import { StoreContext } from "../store/Store";
+import { IPlace } from "../services/PlaceService";
 
 interface PlacesProps extends RootTabScreenProps<"Props"> {}
 
 export const Places: React.FC<PlacesProps> = (props) => {
   const { navigation } = props;
-  const category = {} as any;
-  const places = {} as any;
+  const { viewPlace } = React.useContext(StoreContext);
 
-  const placesByCategory = React.useMemo(() => {
-    return places.filter((p: any) => p.categoryId === category.id);
-  }, [places]);
+  const handleOnPress = React.useMemo(() => {
+    return (item: IPlace) => {
+      viewPlace.setPlace(() => item);
+      navigation.navigate("PlaceDetail");
+    };
+  }, []);
 
   return (
     <>
-      {placesByCategory.length ? (
+      {viewPlace.data.length ? (
         <FlatList
-          data={placesByCategory}
+          data={viewPlace.data}
           renderItem={({ item }) => (
-            <PlaceCard place={item} navigation={navigation} />
+            <PlaceCard place={item} onClick={() => handleOnPress(item)} />
           )}
           keyExtractor={(item) => item.id.toString()}
           style={styles.container}

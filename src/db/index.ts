@@ -5,7 +5,7 @@ import {
   updateCurrentUser,
   deleteCurrentUser,
 } from "./currentUser";
-import { addPlaceTypes, createPlaceTypes, getPlaceTypes } from "./place";
+import { addPlaceTypes, createPlaceTypes, getPlaceTypes } from "./placeTypes";
 import {
   addUserAuthToken,
   getUserAuthToken,

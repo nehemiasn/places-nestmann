@@ -1,7 +1,7 @@
 import React from "react";
 import { ApolloServiceError } from "../apollo/hooks";
-import { IPlaceType } from "../services/PlaceService";
-import { usePlaceTypes } from "./Place";
+import { IPlace, IPlaceType } from "../services/PlaceService";
+import { usePlaceTypes, useViewPlace } from "./Place";
 import { Ipayload, IUser, useLogin, useCurrentUser, useSignup } from "./User";
 
 interface IStore {
@@ -35,6 +35,15 @@ interface IStore {
     data: IPlaceType[];
     loading: boolean;
   };
+  viewPlace: {
+    error: ApolloServiceError | undefined;
+    data: IPlace[];
+    loading: boolean;
+    placeType: IPlaceType | undefined;
+    setPlaceType: React.Dispatch<React.SetStateAction<IPlaceType | undefined>>;
+    place: IPlace | undefined;
+    setPlace: React.Dispatch<React.SetStateAction<IPlace | undefined>>;
+  };
 }
 
 const context: IStore = {
@@ -42,6 +51,7 @@ const context: IStore = {
   currentUserStore: {} as any,
   signupStore: {} as any,
   placeTypes: {} as any,
+  viewPlace: {} as any,
 };
 
 export const StoreContext = React.createContext(context);
@@ -55,10 +65,17 @@ export const StoreProvider: React.FC<StoreProviderProps> = (props) => {
   const currentUserStore = useCurrentUser();
   const signupStore = useSignup();
   const placeTypes = usePlaceTypes();
+  const viewPlace = useViewPlace();
 
   return (
     <StoreContext.Provider
-      value={{ loginStore, currentUserStore, signupStore, placeTypes }}
+      value={{
+        loginStore,
+        currentUserStore,
+        signupStore,
+        placeTypes,
+        viewPlace,
+      }}
     >
       {props.children}
     </StoreContext.Provider>
