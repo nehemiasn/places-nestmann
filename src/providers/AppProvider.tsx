@@ -51,8 +51,8 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = (
     if (location) {
       return {
         ...location.coords,
-        latitudeDelta: 0.1,
-        longitudeDelta: 0.1,
+        latitudeDelta: 20,
+        longitudeDelta: 20,
       };
     }
     return undefined;
