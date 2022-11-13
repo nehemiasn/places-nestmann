@@ -4,8 +4,7 @@ import { FragmentService } from "../FragmentService";
 export const CREATE_ONE_PLACE = gql`
   mutation createOnePlace($data: PlaceCreateOneInput!) {
     createOnePlace(data: $data) {
-      ...FPlace
+      id
     }
   }
-  ${FragmentService.Place}
 `;

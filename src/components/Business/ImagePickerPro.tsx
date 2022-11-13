@@ -46,12 +46,12 @@ export const ImagePickerPro: React.FC<ImagePickerProProps> = (props) => {
         allowsEditing: true,
         aspect: props.aspect || [4, 4],
         quality: 1,
-        base64: true,
       }).catch((error) => {
         props.onCancel();
         // console.log(error);
       });
-      props.onImage(`data:image/jpeg;base64,${image.uri}`);
+      // sin data:image/jpeg;base64,
+      props.onImage(image.uri);
     } catch (error) {
       props.onCancel();
     }

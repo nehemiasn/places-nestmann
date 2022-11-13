@@ -1,25 +1,33 @@
 import React from "react";
 import { ActivityIndicator } from "react-native";
+import { AppContext } from "../../providers/AppProvider";
 import { StoreContext } from "../../store/Store";
 import { View } from "../Base";
 
 interface LoadingAppProps {}
 
 export const LoadingApp: React.FC<LoadingAppProps> = () => {
+  const { loading } = React.useContext(AppContext);
   const { loginStore, signupStore, currentUserStore } =
     React.useContext(StoreContext);
 
-  const loading = React.useMemo(() => {
+  const _loading = React.useMemo(() => {
     return !!(
+      loading ||
       loginStore.loading ||
       signupStore.loading ||
       currentUserStore.loading
     );
-  }, []);
+  }, [
+    loading,
+    loginStore.loading,
+    signupStore.loading,
+    currentUserStore.loading,
+  ]);
 
   return (
     <>
-      {loading ? (
+      {_loading ? (
         <View
           style={{
             position: "absolute",

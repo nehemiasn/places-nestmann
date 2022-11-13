@@ -7,17 +7,30 @@ import { LoadingApp } from "../components/Business/LoadingApp";
 import { Ipayload } from "../store/User";
 
 interface IAppContext {
+  loading: boolean;
+  setLoading: SetterState<boolean>;
   location: ILocation | undefined;
   handleGetLocation: (callback?: (l: ILocation) => void) => void;
   payload: Ipayload | undefined;
   setPayload: SetterState<Ipayload | undefined>;
+  initialRegion:
+    | {
+        latitudeDelta: number;
+        longitudeDelta: number;
+        latitude: number;
+        longitude: number;
+      }
+    | undefined;
 }
 
 const context: IAppContext = {
+  loading: false,
+  setLoading: () => {},
   location: undefined,
   handleGetLocation: () => {},
   payload: undefined,
   setPayload: () => {},
+  initialRegion: undefined,
 };
 
 export const AppContext = React.createContext(context);
@@ -29,9 +42,21 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = (
 ) => {
   const loadComponent = React.useRef<boolean>(false);
   const { children } = props as any;
+  const [loading, setLoading] = React.useState<boolean>(false);
   const { getLocation } = CurrentPosition();
   const [location, setLocation] = React.useState<ILocation>();
   const [payload, setPayload] = React.useState<Ipayload>();
+
+  const initialRegion = React.useMemo(() => {
+    if (location) {
+      return {
+        ...location.coords,
+        latitudeDelta: 0.1,
+        longitudeDelta: 0.1,
+      };
+    }
+    return undefined;
+  }, [location]);
 
   const handleGetLocation = async (callback?: (l: ILocation) => void) => {
     const location: any = await getLocation();
@@ -52,10 +77,13 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = (
   return (
     <AppContext.Provider
       value={{
+        loading,
+        setLoading,
         location,
         handleGetLocation,
         payload,
         setPayload,
+        initialRegion,
       }}
     >
       <View

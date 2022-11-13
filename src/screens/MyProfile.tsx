@@ -29,13 +29,12 @@ export const MyProfile: React.FC<MyProfileProps> = (props) => {
   const handleUpload = React.useMemo(() => {
     return async (uri: any) => {
       setloadCamera(false);
-      console.log(uri);
-      console.log(uriToFile(uri));
+      const file = await uriToFile(uri);
       loadImage({
         variables: {
           data: {
             file: {
-              file: uriToFile(uri),
+              file,
             },
           },
         },
@@ -169,6 +168,8 @@ export const styles = StyleSheet.create({
   },
   container2: {
     flex: 1,
+    width: "100%",
+    height: "100%",
   },
   name: {
     fontSize: 24,

@@ -44,6 +44,24 @@ interface IStore {
     place: IPlace | undefined;
     setPlace: React.Dispatch<React.SetStateAction<IPlace | undefined>>;
   };
+  myPlaces: {
+    error: ApolloServiceError | undefined;
+    data: IPlace[];
+    loading: boolean;
+    placeType: IPlaceType | undefined;
+    setPlaceType: React.Dispatch<React.SetStateAction<IPlaceType | undefined>>;
+    place: IPlace | undefined;
+    setPlace: React.Dispatch<React.SetStateAction<IPlace | undefined>>;
+  };
+  favorites: {
+    error: ApolloServiceError | undefined;
+    data: IPlace[];
+    loading: boolean;
+    placeType: IPlaceType | undefined;
+    setPlaceType: React.Dispatch<React.SetStateAction<IPlaceType | undefined>>;
+    place: IPlace | undefined;
+    setPlace: React.Dispatch<React.SetStateAction<IPlace | undefined>>;
+  };
 }
 
 const context: IStore = {
@@ -52,6 +70,8 @@ const context: IStore = {
   signupStore: {} as any,
   placeTypes: {} as any,
   viewPlace: {} as any,
+  myPlaces: {} as any,
+  favorites: {} as any,
 };
 
 export const StoreContext = React.createContext(context);
@@ -66,6 +86,8 @@ export const StoreProvider: React.FC<StoreProviderProps> = (props) => {
   const signupStore = useSignup();
   const placeTypes = usePlaceTypes();
   const viewPlace = useViewPlace();
+  const myPlaces = useViewPlace();
+  const favorites = useViewPlace();
 
   return (
     <StoreContext.Provider
@@ -75,6 +97,8 @@ export const StoreProvider: React.FC<StoreProviderProps> = (props) => {
         signupStore,
         placeTypes,
         viewPlace,
+        myPlaces,
+        favorites,
       }}
     >
       {props.children}

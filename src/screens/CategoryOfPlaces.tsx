@@ -1,7 +1,6 @@
 import React from "react";
-import { FlatList, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { RootTabScreenProps } from "../types";
-import { CategoryCard } from "../components";
 import { StoreContext } from "../store/Store";
 import { IPlaceType } from "../services/PlaceService";
 
@@ -19,14 +18,16 @@ export const CategoryOfPlaces: React.FC<CategoryOfPlacesProps> = (props) => {
   }, []);
 
   return (
-    <FlatList
-      data={placeTypes.data}
-      renderItem={({ item }) => (
-        <CategoryCard item={item} onPress={() => handleOnPress(item)} />
-      )}
-      keyExtractor={(item) => item.id.toString()}
-      style={styles.container}
-    />
+    <>
+      {/* <FlatList
+        data={placeTypes.data}
+        renderItem={({ item }) => (
+          <CategoryCard item={item} onPress={() => handleOnPress(item)} />
+        )}
+        keyExtractor={(item) => item.id.toString()}
+        style={styles.container}
+      /> */}
+    </>
   );
 };
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, ScrollView, StyleSheet, TextInput } from "react-native";
+import { Alert, Button, ScrollView, StyleSheet, TextInput } from "react-native";
 import { LatLng, MapPressEvent } from "react-native-maps";
 import {
   Separator,
@@ -11,15 +11,17 @@ import { CardList } from "../components/Business/CardList";
 import { ImagePickerPro } from "../components/Business/ImagePickerPro";
 import { AppContext } from "../providers/AppProvider";
 import { useUploadOnePlaceFileService } from "../services/FileService";
+import { useMutationCreateOnePlace } from "../services/PlaceService";
 import { RootTabScreenProps } from "../types";
 import { colors } from "../utils/constants";
 import { uriToFile } from "../utils/tools";
 
 interface AddPlaceProps extends RootTabScreenProps<"Props"> {}
 
-export const AddPlace: React.FC<AddPlaceProps> = () => {
-  const { initialRegion } = React.useContext(AppContext);
-  const [title, setTitle] = React.useState<string>("");
+export const AddPlace: React.FC<AddPlaceProps> = (props) => {
+  const { navigation } = props;
+  const { initialRegion, setLoading } = React.useContext(AppContext);
+  const [name, setName] = React.useState<string>("");
   const [description, setDescription] = React.useState<string>("");
   const [location, setLocation] = React.useState<LatLng>();
   const [type, setType] = React.useState<{
@@ -33,7 +35,8 @@ export const AddPlace: React.FC<AddPlaceProps> = () => {
       name: string;
     }[]
   >([]);
-  const [loadImage, statusLoadImage] = useUploadOnePlaceFileService();
+  const [createOnePlace, statusCreateOnePlace] = useMutationCreateOnePlace();
+  const [uploadOnePlaceFile] = useUploadOnePlaceFileService();
 
   const handleAddPhoto = React.useMemo(() => {
     return async (uri: any) => {
@@ -49,12 +52,82 @@ export const AddPlace: React.FC<AddPlaceProps> = () => {
   }, []);
 
   const handleAddPlace = () => {
-    // signup(email, password, comment, lastName);
+    if (!name) {
+      return Alert.alert("Error", "Debe ingresar un titulo", [{ text: "OK" }]);
+    }
+    if (!description) {
+      return Alert.alert("Error", "Debe ingresar una descripción", [
+        { text: "OK" },
+      ]);
+    }
+    if (!location) {
+      return Alert.alert("Error", "Debe marcar la ubicación en el mapa", [
+        { text: "OK" },
+      ]);
+    }
+    if (!type) {
+      return Alert.alert("Error", "Debe seleccionar un tipo", [{ text: "OK" }]);
+    }
+    setLoading(() => true);
+    createOnePlace({
+      variables: {
+        data: {
+          name,
+          description,
+          latitude: location.latitude,
+          longitude: location.longitude,
+          placeTypeId: type.value,
+        },
+      },
+    }).catch((error) => {
+      setLoading(() => false);
+      Alert.alert("Error", error.message, [{ text: "OK" }]);
+    });
   };
 
   const onHandleLocationSelect = (event: MapPressEvent) => {
     setLocation(event.nativeEvent.coordinate);
   };
+
+  const upload = async () => {
+    try {
+      setLoading(() => true);
+      for (const item of files) {
+        const file = await uriToFile(item.uri);
+        uploadOnePlaceFile({
+          variables: {
+            data: {
+              file: {
+                file,
+              },
+              placeId: statusCreateOnePlace.data.id,
+            },
+          },
+        }).catch((error) => {
+          setLoading(() => false);
+          Alert.alert("Error", error.message, [{ text: "OK" }]);
+        });
+      }
+      Alert.alert("Listo!", "El lugar se creo correctamente.", [
+        {
+          text: "OK",
+          onPress: () => {
+            navigation.navigate("MyProfile");
+          },
+        },
+      ]);
+    } catch (error: any) {
+      Alert.alert("Error", error.message, [{ text: "OK" }]);
+    } finally {
+      setLoading(() => false);
+    }
+  };
+
+  React.useEffect(() => {
+    if (statusCreateOnePlace.data.id) {
+      upload();
+    }
+  }, [statusCreateOnePlace.data]);
 
   return (
     <>
@@ -65,8 +138,8 @@ export const AddPlace: React.FC<AddPlaceProps> = () => {
         <Separator px={8} />
         <TextInput
           style={styles.input}
-          onChangeText={(ev) => setTitle(() => ev)}
-          value={title}
+          onChangeText={(ev) => setName(() => ev)}
+          value={name}
         />
         <Separator px={16} />
         <Typography type="OpenSans-SemiBold" style={styles.semiBold}>
@@ -125,7 +198,7 @@ export const AddPlace: React.FC<AddPlaceProps> = () => {
         <Separator px={16} />
         <Button
           title="Agregar lugar"
-          onPress={() => {}}
+          onPress={handleAddPlace}
           color={colors.colorPrimary}
         />
         <Separator px={48} />

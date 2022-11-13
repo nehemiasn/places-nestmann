@@ -103,7 +103,7 @@ export const useCurrentUser = () => {
       })
         .then((r) => {
           if (r) {
-            console.log("3");
+            console.log("updateCurrentUser");
             setUser((v) => {
               if (v) {
                 return {

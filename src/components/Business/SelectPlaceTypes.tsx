@@ -13,7 +13,11 @@ export const SelectPlaceTypes: React.FC<SelectPlaceTypesProps> = (props) => {
   const { onValueChange } = props;
   const { placeTypes } = React.useContext(StoreContext);
   const [viewModal, setViewModal] = React.useState<boolean>(false);
-  const [index, setIndex] = React.useState<number>(0);
+  const [_index, setIndex] = React.useState<number>();
+
+  const index = React.useMemo(() => {
+    return _index;
+  }, [_index]);
 
   const selectItems = React.useMemo(() => {
     return placeTypes.data.map((item) => ({
@@ -26,9 +30,13 @@ export const SelectPlaceTypes: React.FC<SelectPlaceTypesProps> = (props) => {
     <>
       <TouchableOpacity onPress={() => setViewModal(true)}>
         <View style={styles.input}>
-          <Typography type="OpenSans-Regular" style={styles.regular}>
-            {selectItems[index].label || "Seleccionar tipo"}
-          </Typography>
+          {index ? (
+            <Typography type="OpenSans-Regular">
+              {selectItems[index].label}
+            </Typography>
+          ) : (
+            <Typography type="OpenSans-Regular">Seleccionar tipo</Typography>
+          )}
         </View>
       </TouchableOpacity>
       {viewModal ? (
@@ -45,7 +53,7 @@ export const SelectPlaceTypes: React.FC<SelectPlaceTypesProps> = (props) => {
             <WheelPickerExpo
               height={300}
               width={300}
-              initialSelectedIndex={index}
+              initialSelectedIndex={_index}
               items={selectItems}
               onChange={(item) => setIndex(item.index)}
             />
@@ -54,7 +62,9 @@ export const SelectPlaceTypes: React.FC<SelectPlaceTypesProps> = (props) => {
               title="Aceptar"
               onPress={() => {
                 setViewModal(false);
-                onValueChange(selectItems[index]);
+                if (index) {
+                  onValueChange(selectItems[index]);
+                }
               }}
               color={colors.colorPrimary}
             />
@@ -80,8 +90,5 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 20,
-  },
-  regular: {
-    fontSize: 16,
   },
 });

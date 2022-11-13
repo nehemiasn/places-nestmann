@@ -36,7 +36,7 @@ export const Map: React.FC<MapProps> = () => {
 
   return (
     <>
-      {!IS_WEB ? (
+      {/* {!IS_WEB ? (
         <MapView
           key={key}
           style={styles.container}
@@ -53,7 +53,7 @@ export const Map: React.FC<MapProps> = () => {
             />
           ) : null}
         </MapView>
-      ) : null}
+      ) : null} */}
       <View
         style={{
           position: "absolute",

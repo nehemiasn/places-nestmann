@@ -25,28 +25,30 @@ export const MapPicker: React.FC<MapPickerProps> = (props) => {
   };
 
   return (
-    <MapView
-      initialRegion={
-        initialRegion || {
-          latitude: 37.78,
-          longitude: -122.43,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
+    <>
+      {/* <MapView
+        initialRegion={
+          initialRegion || {
+            latitude: 37.78,
+            longitude: -122.43,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }
         }
-      }
-      style={styles.container}
-      onPress={onHandlePickLocation}
-    >
-      {selectedLocation && (
-        <Marker
-          title="Ubicacion seleccionada"
-          coordinate={{
-            latitude: selectedLocation.lat,
-            longitude: selectedLocation.lng,
-          }}
-        />
-      )}
-    </MapView>
+        style={styles.container}
+        onPress={onHandlePickLocation}
+      >
+        {selectedLocation && (
+          <Marker
+            title="Ubicacion seleccionada"
+            coordinate={{
+              latitude: selectedLocation.lat,
+              longitude: selectedLocation.lng,
+            }}
+          />
+        )}
+      </MapView> */}
+    </>
   );
 };
 

@@ -21,7 +21,10 @@ export type RootStackParamList = {
   NotFound: undefined;
   Places: undefined;
   PlaceDetail: undefined;
+  MyProfile: undefined;
   Favorites: undefined;
+  MyPlaces: undefined;
+  AddPlace: undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> =

@@ -79,12 +79,11 @@ export const base64ToFile = (src: string, filename: string): Promise<File> => {
 
 export const uriToFile = async (uri: string, name?: string) => {
   const fileName = name || new Date().getTime();
-  const file = new ReactNativeFile({
+  return new ReactNativeFile({
     uri,
     name: `${fileName}.jpeg`,
     type: "image/jpeg",
   });
-  return file;
 };
 
 export const validateEmail = (email: string) => {

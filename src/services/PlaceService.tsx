@@ -6,7 +6,6 @@ import {
   useCustomMutation,
   useCustomQuery,
 } from "../apollo/hooks";
-import { Ipayload, IUser } from "../store/User";
 
 export const useQueryPlaceTypes = (): CustomQueryOutput<IPlaceType[]> => {
   const [call, status] = useCustomQuery(Query.placeTypes);
@@ -38,6 +37,13 @@ export const useQueryPlaces = (): CustomQueryOutput<IPlace[]> => {
       data,
     },
   ];
+};
+
+export const useMutationCreateOnePlace = (): CustomMutationOutput<{
+  id: number;
+}> => {
+  const [call, status] = useCustomMutation(Mutation.createOnePlace);
+  return [call, status];
 };
 
 export interface IPlaceType {
