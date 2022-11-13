@@ -1,7 +1,7 @@
 import React from "react";
 import { ApolloServiceError } from "../apollo/hooks";
 import { IPlace, IPlaceType } from "../services/PlaceService";
-import { usePlaceTypes, useViewPlace } from "./Place";
+import { useAllPlace, usePlaceTypes, useViewPlace } from "./Place";
 import { Ipayload, IUser, useLogin, useCurrentUser, useSignup } from "./User";
 
 interface IStore {
@@ -62,6 +62,12 @@ interface IStore {
     place: IPlace | undefined;
     setPlace: React.Dispatch<React.SetStateAction<IPlace | undefined>>;
   };
+  allPlace: {
+    places: IPlace[];
+    placesByType: IPlace[];
+    placeType: IPlaceType | undefined;
+    setPlaceType: React.Dispatch<React.SetStateAction<IPlaceType | undefined>>;
+  };
 }
 
 const context: IStore = {
@@ -72,6 +78,7 @@ const context: IStore = {
   viewPlace: {} as any,
   myPlaces: {} as any,
   favorites: {} as any,
+  allPlace: {} as any,
 };
 
 export const StoreContext = React.createContext(context);
@@ -88,6 +95,7 @@ export const StoreProvider: React.FC<StoreProviderProps> = (props) => {
   const viewPlace = useViewPlace();
   const myPlaces = useViewPlace();
   const favorites = useViewPlace();
+  const allPlace = useAllPlace();
 
   return (
     <StoreContext.Provider
@@ -99,6 +107,7 @@ export const StoreProvider: React.FC<StoreProviderProps> = (props) => {
         viewPlace,
         myPlaces,
         favorites,
+        allPlace,
       }}
     >
       {props.children}

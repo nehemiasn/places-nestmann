@@ -1,5 +1,6 @@
 import React from "react";
 import { addPlaceTypes, createPlaceTypes, getPlaceTypes } from "../db";
+import { addPlaces, createPlaces, getPlaces } from "../db/place";
 import {
   IPlace,
   IPlaceType,
@@ -16,6 +17,18 @@ export const usePlaceTypes = () => {
   }, [_data, status.data]);
 
   React.useEffect(() => {
+    if (status.data.length) {
+      createPlaceTypes()
+        .then(() => {
+          addPlaceTypes(status.data);
+        })
+        .catch(() => {
+          // log
+        });
+    }
+  }, [status.data]);
+
+  React.useEffect(() => {
     getPlaceTypes()
       .then((res) => {
         setData(() => res);
@@ -27,18 +40,6 @@ export const usePlaceTypes = () => {
         call();
       });
   }, []);
-
-  React.useEffect(() => {
-    if (status.data.length) {
-      createPlaceTypes()
-        .then(() => {
-          addPlaceTypes(status.data);
-        })
-        .catch(() => {
-          // log
-        });
-    }
-  }, [status.data]);
 
   return {
     ...status,
@@ -71,6 +72,52 @@ export const useViewPlace = () => {
     ...statusPlaces,
     place,
     setPlace,
+  };
+};
+
+export const useAllPlace = () => {
+  const [places, setPlaces] = React.useState<IPlace[]>([]);
+  const [placeType, setPlaceType] = React.useState<IPlaceType>();
+  const [callPlaces, statusPlaces] = useQueryPlaces();
+
+  const placesByType = React.useMemo(() => {
+    return places.filter((i) => i.placeTypeId === placeType?.id);
+  }, [placeType, places]);
+
+  React.useEffect(() => {
+    if (statusPlaces.data.length) {
+      createPlaces()
+        .then(() => {
+          addPlaces(JSON.stringify(statusPlaces.data));
+          setPlaces(() => statusPlaces.data);
+        })
+        .catch(() => {
+          // log
+        });
+    }
+  }, [statusPlaces.data]);
+
+  React.useEffect(() => {
+    getPlaces()
+      .then((res) => {
+        console.log(res);
+        if (res) {
+          setPlaces(() => JSON.parse(res));
+        }
+      })
+      .catch(() => {
+        // log
+      })
+      .finally(() => {
+        callPlaces();
+      });
+  }, []);
+
+  return {
+    places,
+    placesByType,
+    placeType,
+    setPlaceType,
   };
 };
 

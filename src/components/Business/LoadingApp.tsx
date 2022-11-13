@@ -4,10 +4,12 @@ import { AppContext } from "../../providers/AppProvider";
 import { StoreContext } from "../../store/Store";
 import { View } from "../Base";
 
-interface LoadingAppProps {}
+interface LoadingAppProps {
+  loading?: boolean;
+}
 
-export const LoadingApp: React.FC<LoadingAppProps> = () => {
-  const { loading } = React.useContext(AppContext);
+export const LoadingApp: React.FC<LoadingAppProps> = (props) => {
+  const { loading } = props;
   const { loginStore, signupStore, currentUserStore } =
     React.useContext(StoreContext);
 

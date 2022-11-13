@@ -12,6 +12,7 @@ import {
   PlaceCard,
   FavoritePlaceIcon,
   PlaceCardList,
+  CardListPlaceDetail,
 } from "./Business";
 import { SelectPlaceTypes } from "./Business/SelectPlaceTypes";
 
@@ -28,4 +29,5 @@ export {
   PlaceCardList,
   MapPicker,
   SelectPlaceTypes,
+  CardListPlaceDetail,
 };

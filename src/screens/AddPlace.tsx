@@ -124,7 +124,7 @@ export const AddPlace: React.FC<AddPlaceProps> = (props) => {
   };
 
   React.useEffect(() => {
-    if (statusCreateOnePlace.data.id) {
+    if (statusCreateOnePlace.data) {
       upload();
     }
   }, [statusCreateOnePlace.data]);

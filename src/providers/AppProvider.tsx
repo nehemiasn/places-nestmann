@@ -91,7 +91,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = (
           flex: 1,
         }}
       >
-        <LoadingApp />
+        <LoadingApp loading={loading} />
         {children}
       </View>
     </AppContext.Provider>

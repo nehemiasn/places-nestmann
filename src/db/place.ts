@@ -1,4 +1,3 @@
-import { IPlaceType } from "../services/PlaceService";
 import { SQLiteDB } from "./create";
 
 export const createPlaces = () => {
@@ -14,11 +13,9 @@ export const createPlaces = () => {
           }
         );
         const createPlaces = () => {
-          const id = "id INT NOT NULL";
-          const name = "name TEXT NOT NULL";
-          const description = "description TEXT";
+          const json = "json TEXT";
           tx.executeSql(
-            `CREATE TABLE IF NOT EXISTS places (${id}, ${name}, ${description});`,
+            `CREATE TABLE IF NOT EXISTS places (${json});`,
             [],
             () => resolve(true),
             (_, err) => {
@@ -34,27 +31,18 @@ export const createPlaces = () => {
   });
 };
 
-export const addPlaces = (
-  data: {
-    id: number;
-    name: string;
-    description: string;
-  }[]
-) => {
+export const addPlaces = (json: string) => {
   return new Promise((resolve: (result: boolean) => void, reject) => {
     try {
       SQLiteDB.transaction((tx) => {
-        for (const iterator of data) {
-          const { id, name, description } = iterator;
-          tx.executeSql(
-            "INSERT INTO places (id, name, description) VALUES (?, ?, ?);",
-            [id, name, description],
-            () => {},
-            (_, err) => {
-              throw new Error(err.message);
-            }
-          );
-        }
+        tx.executeSql(
+          "INSERT INTO places (json) VALUES (?);",
+          [json],
+          () => {},
+          (_, err) => {
+            throw new Error(err.message);
+          }
+        );
         resolve(true);
       });
     } catch (error) {
@@ -64,16 +52,17 @@ export const addPlaces = (
 };
 
 export const getPlaces = () => {
-  return new Promise((resolve: (value: IPlaceType[]) => void, reject) => {
+  return new Promise((resolve: (value: string) => void, reject) => {
     SQLiteDB.transaction((tx) => {
       tx.executeSql(
         "SELECT * FROM places",
         [],
         (_, res: any) => {
           if (res.rows.length) {
-            resolve(res.rows);
+            const row: any = res.rows.item(res.rows.length - 1);
+            resolve(row.json);
           } else {
-            resolve([]);
+            resolve("");
           }
         },
         (_, err) => reject(err) as any

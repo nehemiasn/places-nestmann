@@ -9,7 +9,7 @@ interface PlacesProps extends RootTabScreenProps<"Props"> {}
 
 export const Places: React.FC<PlacesProps> = (props) => {
   const { navigation } = props;
-  const { viewPlace } = React.useContext(StoreContext);
+  const { allPlace, viewPlace } = React.useContext(StoreContext);
 
   const handleOnPress = React.useMemo(() => {
     return (item: IPlace) => {
@@ -20,9 +20,9 @@ export const Places: React.FC<PlacesProps> = (props) => {
 
   return (
     <>
-      {viewPlace.data.length ? (
+      {allPlace.placesByType.length ? (
         <FlatList
-          data={viewPlace.data}
+          data={allPlace.placesByType}
           renderItem={({ item }) => (
             <PlaceCard place={item} onClick={() => handleOnPress(item)} />
           )}

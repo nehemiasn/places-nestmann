@@ -1,6 +1,11 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import { Typography, View, FavoritePlaceIcon, Separator } from "../components";
+import {
+  Typography,
+  View,
+  Separator,
+  CardListPlaceDetail,
+} from "../components";
 import { StoreContext } from "../store/Store";
 import { RootTabScreenProps } from "../types";
 
@@ -10,37 +15,22 @@ export const PlaceDetail: React.FC<PlaceDetailProps> = () => {
   const { viewPlace } = React.useContext(StoreContext);
 
   const place = React.useMemo(() => {
-    return viewPlace.place || ({} as any);
+    return viewPlace.place;
   }, [viewPlace.place]);
 
-  const handleAddAndRemoveFavorite = React.useMemo(() => {
-    return () => {
-      // if (!place.isFavorite) {
-      //   dispatch(addFavorite(place.id) as any);
-      // } else {
-      //   dispatch(removeFavorite(place.id) as any);
-      // }
-    };
-  }, []);
-
   return (
-    <View style={styles.container}>
-      <View style={styles.head1}>
-        <View style={styles.head2}>
-          <View style={styles.title1}>
-            <Typography style={styles.title2}>{place.name}</Typography>
+    <>
+      {place ? (
+        <View style={styles.container}>
+          <Separator px={16} />
+          <View style={styles.description}>
+            <Typography>{place.description}</Typography>
           </View>
-          {/* <FavoritePlaceIcon
-            isFavorite={place.isFavorite}
-            onPress={handleAddAndRemoveFavorite}
-          /> */}
+          <Separator px={16} />
+          <CardListPlaceDetail files={place.placeFiles} />
         </View>
-      </View>
-      <Separator px={16} divider />
-      <View style={styles.description}>
-        <Typography>{place.description}</Typography>
-      </View>
-    </View>
+      ) : null}
+    </>
   );
 };
 
