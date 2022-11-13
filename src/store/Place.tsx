@@ -48,28 +48,8 @@ export const usePlaceTypes = () => {
 };
 
 export const useViewPlace = () => {
-  const [placeType, setPlaceType] = React.useState<IPlaceType>();
   const [place, setPlace] = React.useState<IPlace>();
-  const [callPlaces, statusPlaces] = useQueryPlaces();
-
-  React.useEffect(() => {
-    if (placeType?.id) {
-      callPlaces({
-        variables: {
-          where: {
-            placeTypeId: {
-              equals: placeType.id,
-            },
-          },
-        },
-      });
-    }
-  }, [placeType]);
-
   return {
-    placeType,
-    setPlaceType,
-    ...statusPlaces,
     place,
     setPlace,
   };

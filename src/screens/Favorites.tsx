@@ -7,6 +7,14 @@ interface FavoritesProps extends RootTabScreenProps<"Props"> {}
 
 export const Favorites: React.FC<FavoritesProps> = (props) => {
   const { navigation } = props;
-  const { myPlaces } = React.useContext(StoreContext);
-  return <PlaceCardList navigation={navigation} hook={myPlaces} />;
+  const { viewPlace, favorites } = React.useContext(StoreContext);
+  return (
+    <PlaceCardList
+      navigation={navigation}
+      hook={{
+        data: favorites,
+        ...viewPlace,
+      }}
+    />
+  );
 };

@@ -7,6 +7,14 @@ interface MyPlacesProps extends RootTabScreenProps<"Props"> {}
 
 export const MyPlaces: React.FC<MyPlacesProps> = (props) => {
   const { navigation } = props;
-  const { myPlaces } = React.useContext(StoreContext);
-  return <PlaceCardList navigation={navigation} hook={myPlaces} />;
+  const { myPlaces, viewPlace } = React.useContext(StoreContext);
+  return (
+    <PlaceCardList
+      navigation={navigation}
+      hook={{
+        data: myPlaces,
+        ...viewPlace,
+      }}
+    />
+  );
 };

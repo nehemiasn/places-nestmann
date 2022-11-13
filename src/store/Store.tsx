@@ -36,32 +36,11 @@ interface IStore {
     loading: boolean;
   };
   viewPlace: {
-    error: ApolloServiceError | undefined;
-    data: IPlace[];
-    loading: boolean;
-    placeType: IPlaceType | undefined;
-    setPlaceType: React.Dispatch<React.SetStateAction<IPlaceType | undefined>>;
     place: IPlace | undefined;
     setPlace: React.Dispatch<React.SetStateAction<IPlace | undefined>>;
   };
-  myPlaces: {
-    error: ApolloServiceError | undefined;
-    data: IPlace[];
-    loading: boolean;
-    placeType: IPlaceType | undefined;
-    setPlaceType: React.Dispatch<React.SetStateAction<IPlaceType | undefined>>;
-    place: IPlace | undefined;
-    setPlace: React.Dispatch<React.SetStateAction<IPlace | undefined>>;
-  };
-  favorites: {
-    error: ApolloServiceError | undefined;
-    data: IPlace[];
-    loading: boolean;
-    placeType: IPlaceType | undefined;
-    setPlaceType: React.Dispatch<React.SetStateAction<IPlaceType | undefined>>;
-    place: IPlace | undefined;
-    setPlace: React.Dispatch<React.SetStateAction<IPlace | undefined>>;
-  };
+  myPlaces: IPlace[];
+  favorites: IPlace[];
   allPlace: {
     places: IPlace[];
     placesByType: IPlace[];
@@ -76,8 +55,8 @@ const context: IStore = {
   signupStore: {} as any,
   placeTypes: {} as any,
   viewPlace: {} as any,
-  myPlaces: {} as any,
-  favorites: {} as any,
+  myPlaces: [],
+  favorites: [],
   allPlace: {} as any,
 };
 
@@ -93,9 +72,17 @@ export const StoreProvider: React.FC<StoreProviderProps> = (props) => {
   const signupStore = useSignup();
   const placeTypes = usePlaceTypes();
   const viewPlace = useViewPlace();
-  const myPlaces = useViewPlace();
-  const favorites = useViewPlace();
   const allPlace = useAllPlace();
+
+  const myPlaces = React.useMemo(() => {
+    return allPlace.places.filter(
+      (p) => p.userId === currentUserStore.user?.id
+    );
+  }, [currentUserStore.user, allPlace.places]);
+
+  const favorites = React.useMemo(() => {
+    return [];
+  }, []);
 
   return (
     <StoreContext.Provider

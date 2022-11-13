@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Image, StyleSheet, TouchableHighlight } from "react-native";
+import { Button, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { RootTabScreenProps } from "../types";
 import { Separator, Typography, View } from "../components";
 import Colors from "../constants/Colors";
@@ -78,9 +78,9 @@ export const MyProfile: React.FC<MyProfileProps> = (props) => {
             />
           ) : null}
           <View style={styles.photoLoad}>
-            <TouchableHighlight onPress={() => setloadCamera(true)}>
+            <TouchableOpacity onPress={() => setloadCamera(true)}>
               <FontAwesome size={24} name="camera" />
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
         </View>
         <View style={styles.photoBack}></View>
@@ -91,26 +91,18 @@ export const MyProfile: React.FC<MyProfileProps> = (props) => {
         </Typography>
         <Separator px={32} />
         <Separator px={0} divider />
-        <TouchableHighlight onPress={() => handleGo("MyPlaces")}>
-          <View style={styles.favorites}>
-            <Typography type="OpenSans-SemiBold">Mis lugares</Typography>
-            <Typography type="OpenSans-Regular">
-              <FontAwesome size={20} name="arrow-right" />
-            </Typography>
-          </View>
-        </TouchableHighlight>
-        <Separator px={0} divider />
-        <TouchableHighlight onPress={() => handleGo("Favorites")}>
-          <View style={styles.favorites}>
-            <Typography type="OpenSans-SemiBold">Mis favoritos</Typography>
-            <Typography type="OpenSans-Regular">
-              <FontAwesome size={20} name="arrow-right" />
-            </Typography>
-          </View>
-        </TouchableHighlight>
-      </View>
-
-      <View style={styles.container3}>
+        <Button
+          title="Mis lugares"
+          onPress={() => handleGo("MyPlaces")}
+          color={colors.colorPrimary}
+        />
+        <Separator px={32} />
+        <Button
+          title="Mis favoritos"
+          onPress={() => handleGo("Favorites")}
+          color={colors.colorPrimary}
+        />
+        <Separator px={32} />
         <Button
           title="Agregar lugar"
           onPress={() => handleGo("AddPlace")}
@@ -124,7 +116,6 @@ export const MyProfile: React.FC<MyProfileProps> = (props) => {
 export const styles = StyleSheet.create({
   page: {
     flex: 1,
-    flexDirection: "column",
   },
   container1: {
     maxHeight: 200,
@@ -168,26 +159,10 @@ export const styles = StyleSheet.create({
   },
   container2: {
     flex: 1,
-    width: "100%",
-    height: "100%",
+    paddingHorizontal: 16,
   },
   name: {
     fontSize: 24,
     textAlign: "center",
-  },
-  favorites: {
-    flex: 1,
-    width: "100%",
-    minHeight: 56,
-    alignItems: "center",
-    justifyContent: "space-around",
-    flexDirection: "row",
-  },
-  container3: {
-    width: "100%",
-    maxHeight: 70,
-    flex: 1,
-    justifyContent: "center",
-    paddingHorizontal: 16,
   },
 });
