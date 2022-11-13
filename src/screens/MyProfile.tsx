@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, StyleSheet, TouchableHighlight } from "react-native";
+import { Button, Image, StyleSheet, TouchableHighlight } from "react-native";
 import { RootTabScreenProps } from "../types";
 import { Separator, Typography, View } from "../components";
 import Colors from "../constants/Colors";
@@ -7,7 +7,8 @@ import { FontAwesome } from "@expo/vector-icons";
 import { ImagePickerPro } from "../components/Business/ImagePickerPro";
 import { StoreContext } from "../store/Store";
 import { useUploadFileUserService } from "../services/FileService";
-import { base64ToFile } from "../utils/tools";
+import { colors } from "../utils/constants";
+import { uriToFile } from "../utils/tools";
 
 interface MyProfileProps extends RootTabScreenProps<"Props"> {}
 
@@ -18,7 +19,6 @@ export const MyProfile: React.FC<MyProfileProps> = (props) => {
   const [loadImage, statusLoadImage] = useUploadFileUserService();
 
   const user = React.useMemo(() => {
-    console.log(currentUserStore.user);
     return currentUserStore.user;
   }, [currentUserStore.user]);
 
@@ -27,28 +27,29 @@ export const MyProfile: React.FC<MyProfileProps> = (props) => {
   }, [user]);
 
   const handleUpload = React.useMemo(() => {
-    return async (file: any) => {
+    return async (uri: any) => {
       setloadCamera(false);
+      console.log(uri);
+      console.log(uriToFile(uri));
       loadImage({
         variables: {
           data: {
             file: {
-              file,
+              file: uriToFile(uri),
             },
           },
         },
       }).catch((err) => {
-        // console.log(err);
+        console.log(err);
       });
     };
   }, []);
 
-  const handleGoFavorites = (item: any) => {
-    navigation.navigate("Favorites");
+  const handleGo = (page: any) => {
+    navigation.navigate(page);
   };
 
   React.useEffect(() => {
-    console.log("statusLoadImage");
     if (statusLoadImage.data && user) {
       currentUserStore.update({
         id: user.id,
@@ -63,7 +64,6 @@ export const MyProfile: React.FC<MyProfileProps> = (props) => {
         <ImagePickerPro
           onImage={handleUpload}
           onCancel={() => setloadCamera(false)}
-          fileName={`${user?.firstName}_${user?.lastName}`}
         />
       ) : null}
       <View style={styles.container1}>
@@ -92,7 +92,7 @@ export const MyProfile: React.FC<MyProfileProps> = (props) => {
         </Typography>
         <Separator px={32} />
         <Separator px={0} divider />
-        <TouchableHighlight onPress={handleGoFavorites}>
+        <TouchableHighlight onPress={() => handleGo("MyPlaces")}>
           <View style={styles.favorites}>
             <Typography type="OpenSans-SemiBold">Mis lugares</Typography>
             <Typography type="OpenSans-Regular">
@@ -101,7 +101,7 @@ export const MyProfile: React.FC<MyProfileProps> = (props) => {
           </View>
         </TouchableHighlight>
         <Separator px={0} divider />
-        <TouchableHighlight onPress={handleGoFavorites}>
+        <TouchableHighlight onPress={() => handleGo("Favorites")}>
           <View style={styles.favorites}>
             <Typography type="OpenSans-SemiBold">Mis favoritos</Typography>
             <Typography type="OpenSans-Regular">
@@ -109,6 +109,14 @@ export const MyProfile: React.FC<MyProfileProps> = (props) => {
             </Typography>
           </View>
         </TouchableHighlight>
+      </View>
+
+      <View style={styles.container3}>
+        <Button
+          title="Agregar lugar"
+          onPress={() => handleGo("AddPlace")}
+          color={colors.colorPrimary}
+        />
       </View>
     </View>
   );
@@ -173,5 +181,12 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-around",
     flexDirection: "row",
+  },
+  container3: {
+    width: "100%",
+    maxHeight: 70,
+    flex: 1,
+    justifyContent: "center",
+    paddingHorizontal: 16,
   },
 });

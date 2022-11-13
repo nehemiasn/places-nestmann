@@ -3,7 +3,7 @@ import * as SQLite from "expo-sqlite";
 export const SQLiteDB = SQLite.openDatabase("places.nestmann");
 
 export const statusSQLiteDB = {
-  drop: false,
+  drop: true,
   create: false,
 };
 
