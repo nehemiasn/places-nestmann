@@ -20,6 +20,7 @@ interface IStore {
       imageUrl?: string;
     }) => void;
     loading: boolean;
+    logout: () => void;
   };
   signupStore: {
     signup: (

@@ -91,6 +91,12 @@ export const useCurrentUser = () => {
     return resultCurrentUser.loading;
   }, [resultCurrentUser.loading]);
 
+  const logout = React.useMemo(() => {
+    return () => {
+      setUser(() => undefined);
+    };
+  }, []);
+
   const update = React.useMemo(() => {
     return (update: {
       id: number;
@@ -165,6 +171,7 @@ export const useCurrentUser = () => {
     isUserLoaded,
     update,
     loading,
+    logout,
   };
 };
 

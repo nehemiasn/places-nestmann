@@ -108,6 +108,14 @@ export const MyProfile: React.FC<MyProfileProps> = (props) => {
           onPress={() => handleGo("AddPlace")}
           color={colors.colorPrimary}
         />
+        <Separator px={32} />
+        <Separator px={32} />
+        <Separator px={32} />
+        <Button
+          title="Cerrar sesion"
+          onPress={() => currentUserStore.logout()}
+          color={colors.colorPrimary}
+        />
       </View>
     </View>
   );
