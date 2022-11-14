@@ -47,6 +47,7 @@ interface IStore {
     placesByType: IPlace[];
     placeType: IPlaceType | undefined;
     setPlaceType: React.Dispatch<React.SetStateAction<IPlaceType | undefined>>;
+    update: () => void;
   };
 }
 

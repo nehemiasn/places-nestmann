@@ -2,6 +2,7 @@ import { Link } from "@react-navigation/native";
 import React from "react";
 import { Alert, Button, StyleSheet, TextInput } from "react-native";
 import { Separator, View, Typography } from "../components";
+import { AppContext } from "../providers/AppProvider";
 import { useSignup } from "../store/User";
 import { RootTabScreenProps } from "../types";
 import { colors } from "../utils/constants";
@@ -10,6 +11,7 @@ interface RegisterProps extends RootTabScreenProps<"Props"> {}
 
 export const Register: React.FC<RegisterProps> = (props) => {
   const { navigation } = props;
+  const { setLoading } = React.useContext(AppContext);
   const { signup } = useSignup();
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
@@ -48,7 +50,12 @@ export const Register: React.FC<RegisterProps> = (props) => {
         [{ text: "OK" }]
       );
     }
-    signup(email, password, firstName, lastName);
+    setLoading(() => true);
+    signup(email, password, firstName, lastName)
+      .then(() => {
+        navigation.navigate("Login");
+      })
+      .finally(() => setLoading(() => true));
   };
 
   return (

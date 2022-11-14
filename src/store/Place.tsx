@@ -59,6 +59,13 @@ export const useAllPlace = () => {
   const [places, setPlaces] = React.useState<IPlace[]>([]);
   const [placeType, setPlaceType] = React.useState<IPlaceType>();
   const [callPlaces, statusPlaces] = useQueryPlaces();
+  const [_update, setUpdate] = React.useState<number>();
+
+  const update = React.useMemo(() => {
+    return () => {
+      setUpdate(() => new Date().getTime());
+    };
+  }, []);
 
   const placesByType = React.useMemo(() => {
     return places.filter((i) => i.placeTypeId === placeType?.id);
@@ -90,13 +97,14 @@ export const useAllPlace = () => {
       .finally(() => {
         callPlaces();
       });
-  }, []);
+  }, [_update]);
 
   return {
     places,
     placesByType,
     placeType,
     setPlaceType,
+    update,
   };
 };
 

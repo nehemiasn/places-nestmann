@@ -25,6 +25,7 @@ export type RootStackParamList = {
   Favorites: undefined;
   MyPlaces: undefined;
   AddPlace: undefined;
+  Login: undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> =

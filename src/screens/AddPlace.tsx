@@ -12,6 +12,7 @@ import { ImagePickerPro } from "../components/Business/ImagePickerPro";
 import { AppContext } from "../providers/AppProvider";
 import { useUploadOnePlaceFileService } from "../services/FileService";
 import { useMutationCreateOnePlace } from "../services/PlaceService";
+import { StoreContext } from "../store/Store";
 import { RootTabScreenProps } from "../types";
 import { colors } from "../utils/constants";
 import { uriToFile } from "../utils/tools";
@@ -21,6 +22,7 @@ interface AddPlaceProps extends RootTabScreenProps<"Props"> {}
 export const AddPlace: React.FC<AddPlaceProps> = (props) => {
   const { navigation } = props;
   const { initialRegion, setLoading } = React.useContext(AppContext);
+  const { allPlace } = React.useContext(StoreContext);
   const [name, setName] = React.useState<string>("");
   const [description, setDescription] = React.useState<string>("");
   const [location, setLocation] = React.useState<LatLng>();
@@ -116,6 +118,7 @@ export const AddPlace: React.FC<AddPlaceProps> = (props) => {
           },
         },
       ]);
+      allPlace.update();
     } catch (error: any) {
       Alert.alert("Error", error.message, [{ text: "OK" }]);
     } finally {

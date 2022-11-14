@@ -9,11 +9,13 @@ import { StoreContext } from "../store/Store";
 import { useUploadFileUserService } from "../services/FileService";
 import { colors } from "../utils/constants";
 import { uriToFile } from "../utils/tools";
+import { AppContext } from "../providers/AppProvider";
 
 interface MyProfileProps extends RootTabScreenProps<"Props"> {}
 
 export const MyProfile: React.FC<MyProfileProps> = (props) => {
   const { navigation } = props;
+  const { setLoading } = React.useContext(AppContext);
   const { currentUserStore } = React.useContext(StoreContext);
   const [loadCamera, setloadCamera] = React.useState<boolean>(false);
   const [loadImage, statusLoadImage] = useUploadFileUserService();
@@ -30,6 +32,7 @@ export const MyProfile: React.FC<MyProfileProps> = (props) => {
     return async (uri: any) => {
       setloadCamera(false);
       const file = await uriToFile(uri);
+      setLoading(() => true);
       loadImage({
         variables: {
           data: {
@@ -38,9 +41,11 @@ export const MyProfile: React.FC<MyProfileProps> = (props) => {
             },
           },
         },
-      }).catch((err) => {
-        // console.log(err);
-      });
+      })
+        .catch((err) => {
+          // console.log(err);
+        })
+        .finally(() => setLoading(() => false));
     };
   }, []);
 

@@ -21,16 +21,19 @@
     },
     "android": {
       "package": "ar.com.redhosting.placesnestmannapp",
-      "versionCode": 1,
+      "versionCode": 3,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#000000"
       },
       "permissions": [
+        "RECORD_AUDIO",
         "CAMERA",
         "ACCESS_FINE_LOCATION",
         "WRITE_EXTERNAL_STORAGE",
-        "android.permission.RECORD_AUDIO"
+        "INTERNET",
+        "READ_EXTERNAL_STORAGE",
+        "ACCESS_COARSE_LOCATION"
       ],
       "config": {
         "googleMaps": {

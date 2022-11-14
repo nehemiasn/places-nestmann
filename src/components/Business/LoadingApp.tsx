@@ -1,6 +1,5 @@
 import React from "react";
 import { ActivityIndicator } from "react-native";
-import { AppContext } from "../../providers/AppProvider";
 import { StoreContext } from "../../store/Store";
 import { View } from "../Base";
 
@@ -10,21 +9,23 @@ interface LoadingAppProps {
 
 export const LoadingApp: React.FC<LoadingAppProps> = (props) => {
   const { loading } = props;
-  const { loginStore, signupStore, currentUserStore } =
+  const { loginStore, currentUserStore, signupStore, placeTypes } =
     React.useContext(StoreContext);
 
   const _loading = React.useMemo(() => {
     return !!(
       loading ||
       loginStore.loading ||
+      currentUserStore.loading ||
       signupStore.loading ||
-      currentUserStore.loading
+      placeTypes.loading
     );
   }, [
     loading,
     loginStore.loading,
-    signupStore.loading,
     currentUserStore.loading,
+    signupStore.loading,
+    placeTypes.loading,
   ]);
 
   return (

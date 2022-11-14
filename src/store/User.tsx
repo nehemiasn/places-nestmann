@@ -177,11 +177,10 @@ export const useCurrentUser = () => {
 
 export const useSignup = () => {
   const [callSignup, resultSignup] = useSignupUserService();
-  const [callCurrentUser, resultCurrentUser] = useCurrentUserService();
 
   const loading = React.useMemo(() => {
-    return resultSignup.loading || resultCurrentUser.loading;
-  }, [resultSignup.loading, resultCurrentUser.loading]);
+    return resultSignup.loading;
+  }, [resultSignup.loading]);
 
   const signup = React.useMemo(() => {
     return (
@@ -190,7 +189,7 @@ export const useSignup = () => {
       firstName: string,
       lastName: string
     ) => {
-      callSignup({
+      return callSignup({
         variables: {
           data: {
             email,
@@ -201,38 +200,15 @@ export const useSignup = () => {
         },
       })
         .then(() => {
-          callCurrentUser().catch((err) => {
-            // log
-            // console.error(err);
-          });
+          Alert.alert("Listo!", "Usuario registrado correctamente.", [
+            { text: "OK" },
+          ]);
         })
-        .catch((err) => {
-          // log
-          // console.error(err);
+        .catch(() => {
+          Alert.alert("Error", "Error al registrar usuario", [{ text: "OK" }]);
         });
     };
   }, []);
-
-  React.useEffect(() => {
-    if (resultCurrentUser.data) {
-      Alert.alert("Listo!", "Usuario registrado correctamente.", [
-        { text: "OK" },
-      ]);
-      addCurrentUser(resultCurrentUser.data)
-        .then(() => {
-          // setUser(() => resultCurrentUser.data);
-        })
-        .catch((err) => {
-          // log
-          // console.error(err);
-        });
-    } else if (resultCurrentUser.error) {
-      Alert.alert("Error", "Ocurrio un error al intentar loguearse.", [
-        { text: "OK" },
-      ]);
-      // console.log(resultSignup.error);
-    }
-  }, [resultCurrentUser.data, resultCurrentUser.error]);
 
   return {
     signup,

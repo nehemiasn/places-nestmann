@@ -71,7 +71,7 @@ export const getPlaceTypes = () => {
         [],
         (_, res: any) => {
           if (res.rows.length) {
-            resolve(res.rows);
+            resolve(res.rows._array);
           } else {
             resolve([]);
           }
