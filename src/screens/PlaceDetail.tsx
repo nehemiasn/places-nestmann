@@ -1,5 +1,6 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
+import MapView, { Marker } from "react-native-maps";
 import {
   Typography,
   View,
@@ -21,14 +22,49 @@ export const PlaceDetail: React.FC<PlaceDetailProps> = () => {
   return (
     <>
       {place ? (
-        <View style={styles.container}>
-          <Separator px={16} />
+        <ScrollView style={styles.container}>
+          <View style={styles.description}>
+            <Typography type="OpenSans-SemiBold" style={{ fontSize: 20 }}>
+              Descipción
+            </Typography>
+          </View>
           <View style={styles.description}>
             <Typography>{place.description}</Typography>
           </View>
           <Separator px={16} />
+          <View style={styles.description}>
+            <Typography type="OpenSans-SemiBold" style={{ fontSize: 20 }}>
+              Mapa
+            </Typography>
+          </View>
+          <MapView
+            initialRegion={{
+              latitude: place.latitude,
+              longitude: place.longitude,
+              latitudeDelta: 0.1,
+              longitudeDelta: 0.1,
+            }}
+            style={styles.map}
+          >
+            {place && (
+              <Marker
+                title="Ubicación seleccionada"
+                coordinate={{
+                  latitude: place.latitude,
+                  longitude: place.longitude,
+                }}
+              />
+            )}
+          </MapView>
+          <Separator px={16} />
+          <View style={styles.description}>
+            <Typography type="OpenSans-SemiBold" style={{ fontSize: 20 }}>
+              Fotos
+            </Typography>
+          </View>
           <CardListPlaceDetail files={place.placeFiles} />
-        </View>
+          <Separator px={48} />
+        </ScrollView>
       ) : null}
     </>
   );
@@ -37,7 +73,6 @@ export const PlaceDetail: React.FC<PlaceDetailProps> = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
     padding: 16,
   },
   head1: {
@@ -61,5 +96,12 @@ const styles = StyleSheet.create({
   description: {
     padding: 16,
     textAlign: "justify",
+  },
+  map: {
+    flex: 1,
+    width: "100%",
+    minHeight: 300,
+    alignItems: "center",
+    padding: 16,
   },
 });

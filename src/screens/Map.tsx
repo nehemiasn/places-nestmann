@@ -62,7 +62,7 @@ export const Map: React.FC<MapProps> = () => {
                 latitude: i.latitude,
                 longitude: i.longitude,
               }}
-              title="Mi ubicación"
+              title={i.name}
             />
           ))}
         </MapView>

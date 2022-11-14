@@ -39,7 +39,7 @@ export const MyProfile: React.FC<MyProfileProps> = (props) => {
           },
         },
       }).catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
     };
   }, []);

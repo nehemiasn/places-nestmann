@@ -80,7 +80,6 @@ export const useAllPlace = () => {
   React.useEffect(() => {
     getPlaces()
       .then((res) => {
-        console.log(res);
         if (res) {
           setPlaces(() => JSON.parse(res));
         }

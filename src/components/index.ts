@@ -5,16 +5,16 @@ import {
   Typography,
   Text,
   View,
+  MapPicker,
 } from "./Base";
-import { MapPicker } from "./Base/GoogleMaps/MapPicker";
 import {
   CategoryCard,
   PlaceCard,
   FavoritePlaceIcon,
   PlaceCardList,
   CardListPlaceDetail,
+  SelectPlaceTypes,
 } from "./Business";
-import { SelectPlaceTypes } from "./Business/SelectPlaceTypes";
 
 export {
   CheckBox,

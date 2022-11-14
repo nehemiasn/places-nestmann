@@ -26,7 +26,7 @@ export const MapPicker: React.FC<MapPickerProps> = (props) => {
 
   return (
     <>
-      {/* <MapView
+      <MapView
         initialRegion={
           initialRegion || {
             latitude: 37.78,
@@ -40,14 +40,14 @@ export const MapPicker: React.FC<MapPickerProps> = (props) => {
       >
         {selectedLocation && (
           <Marker
-            title="Ubicacion seleccionada"
+            title="Ubicación seleccionada"
             coordinate={{
               latitude: selectedLocation.lat,
               longitude: selectedLocation.lng,
             }}
           />
         )}
-      </MapView> */}
+      </MapView>
     </>
   );
 };

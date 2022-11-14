@@ -3,6 +3,7 @@ import { CategoryCard } from "./CategoryCard";
 import { FavoritePlaceIcon } from "./FavoritePlaceIcon";
 import { PlaceCard } from "./PlaceCard";
 import { CardListPlaceDetail } from "./CardListPlaceDetail";
+import { SelectPlaceTypes } from "./SelectPlaceTypes";
 
 export {
   CategoryCard,
@@ -10,4 +11,5 @@ export {
   FavoritePlaceIcon,
   PlaceCardList,
   CardListPlaceDetail,
+  SelectPlaceTypes,
 };
