@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="1284mm"
+   height="2778mm"
+   viewBox="0 0 1284 2777.9999"
+   version="1.1"
+   id="svg1644"
+   inkscape:version="1.1.2 (b8e25be833, 2022-02-05)"
+   sodipodi:docname="splash.svg"
+   inkscape:export-filename="D:\Proyectos\curso\reactnativemobile\places-nestmann\assets\images\splash.png"
+   inkscape:export-xdpi="4.8768001"
+   inkscape:export-ydpi="4.8768001"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1646"
+     pagecolor="#505050"
+     bordercolor="#ffffff"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.097214331"
+     inkscape:cx="4238.0583"
+     inkscape:cy="5410.7249"
+     inkscape:window-width="2560"
+     inkscape:window-height="1494"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1641" />
+  <g
+     inkscape:label="Capa 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(89.77359,-13.479482)">
+    <rect
+       style="fill:#000000;fill-opacity:1;stroke-width:1.94466"
+       id="rect1875"
+       width="1284"
+       height="2778"
+       x="-89.77359"
+       y="13.479482" />
+    <path
+       d="m 104.6784,1761.8551 v -24.892 h 447.548 447.54802 v 24.892 24.892 H 552.2264 104.6784 Z m 68.072,-76.2 v -24.892 h 379.476 379.47597 v 24.892 24.892 H 552.2264 172.7504 Z m 65.024,-225.552 v -174.244 h 49.784 49.784 v 174.244 174.244 h -49.784 -49.784 z m 175.768,0 v -174.244 h 50.292 50.292 v 174.244 174.244 h -50.292 -50.292 z m 176.784,0 v -174.244 h 49.78399 49.784 v 174.244 174.244 h -49.784 -49.78399 z m 175.76797,0 v -174.244 h 50.292 50.292 v 174.244 174.244 h -50.292 -50.292 z M 172.7504,1234.5512 v -24.892 h 379.476 379.47597 v 24.892 24.892 H 552.2264 172.7504 Z m 0.5588,-52.1651 c 0.53086,-0.4712 85.3186,-37.6124 188.4172,-82.5358 115.25408,-50.22 188.626,-81.6632 190.5,-81.6384 2.37966,0.032 371.84577,160.2108 378.45997,164.0783 0.8757,0.5121 -160.1095,0.9044 -378.40917,0.9222 -208.96326,0.017 -379.49886,-0.3549 -378.968,-0.8263 z"
+       style="fill:#d4af37;fill-opacity:1;stroke-width:1.016"
+       id="path1569" />
+  </g>
+</svg>

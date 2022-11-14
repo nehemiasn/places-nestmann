@@ -9,16 +9,16 @@ export enum ENVIRONMENT {
 /**
  * Configuración de ambientes
  */
-const DEFAULT_ENV_APP: Environment = ENVIRONMENT.LOCAL;
+const DEFAULT_ENV_APP: Environment = ENVIRONMENT.PROD;
 const CONFIG_ENVIRONMENTS: {
   LOCAL: IConfigEnv;
   PROD: IConfigEnv;
 } = {
   LOCAL: {
-    apiUrl: `http://localhost:4000/graphql`,
+    apiUrl: `http://192.168.0.62:4000/graphql`,
   },
   PROD: {
-    apiUrl: `http://localhost:4000/graphql`,
+    apiUrl: `https://apiplaces.redhosting.com.ar/graphql`,
   },
 };
 

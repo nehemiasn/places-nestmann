@@ -1,28 +1,41 @@
 {
   "expo": {
-    "name": "places-nestmann",
-    "slug": "places-nestmann",
+    "name": "Lugares",
+    "slug": "placesnestmann",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
-    "userInterfaceStyle": "automatic",
+    "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#000000"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "ar.com.redhosting.placesnestmannapp"
     },
     "android": {
+      "package": "ar.com.redhosting.placesnestmannapp",
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#000000"
+      },
+      "permissions": [
+        "CAMERA",
+        "ACCESS_FINE_LOCATION",
+        "WRITE_EXTERNAL_STORAGE",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyCJ0lsLkz4IEKzAdX_3iyz0cluhYCkFX_c"
+        }
       }
     },
     "web": {
@@ -35,6 +48,11 @@
           "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "e0b28528-cfc3-4c6c-a8a3-a84dd7722688"
+      }
+    }
   }
 }

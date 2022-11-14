@@ -10,10 +10,8 @@ interface LoginProps extends RootTabScreenProps<"Props"> {}
 
 export const Login: React.FC<LoginProps> = () => {
   const { loginStore } = React.useContext(StoreContext);
-  const [email, setEmail] = React.useState<string>(
-    "nehemias.nestmann@gmail.com"
-  );
-  const [password, setPassword] = React.useState<string>("Nehemias03");
+  const [email, setEmail] = React.useState<string>();
+  const [password, setPassword] = React.useState<string>();
 
   const handleLogin = () => {
     if (!(email && email.length > 9 && email.indexOf("@") >= 0)) {

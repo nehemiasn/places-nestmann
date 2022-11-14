@@ -8,7 +8,8 @@ import { colors } from "../utils/constants";
 
 interface RegisterProps extends RootTabScreenProps<"Props"> {}
 
-export const Register: React.FC<RegisterProps> = () => {
+export const Register: React.FC<RegisterProps> = (props) => {
+  const { navigation } = props;
   const { signup } = useSignup();
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
