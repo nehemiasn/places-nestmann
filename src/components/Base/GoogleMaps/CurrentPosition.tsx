@@ -2,7 +2,7 @@ import React from "react";
 import * as Location from "expo-location";
 import { Alert } from "react-native";
 
-const API_KEY = "AIzaSyCJ0lsLkz4IEKzAdX_3iyz0cluhYCkFX_c";
+const API_KEY = "AIzaSyC2M0RQnYIwybkWvw4yjsb91AGqfchbbZQ";
 
 /**
  * Obtiene las coordenadas de la posición actual del usuario

@@ -22,7 +22,7 @@
     "@react-navigation/native-stack": "^6.1.0",
     "apollo-link-timeout": "^4.0.0",
     "apollo-upload-client": "^17.0.0",
-    "expo": "~46.0.13",
+    "expo": "~46.0.17",
     "expo-asset": "~8.6.1",
     "expo-constants": "~13.2.4",
     "expo-font": "~10.2.1",
@@ -46,7 +46,8 @@
     "react-redux": "^8.0.4",
     "redux": "^4.2.0",
     "redux-thunk": "^2.4.1",
-    "subscriptions-transport-ws": "^0.11.0"
+    "subscriptions-transport-ws": "^0.11.0",
+    "expo-updates": "~0.14.7"
   },
   "eslintConfig": {
     "extends": [

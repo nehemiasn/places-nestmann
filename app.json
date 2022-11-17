@@ -25,20 +25,6 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#000000"
-      },
-      "permissions": [
-        "RECORD_AUDIO",
-        "CAMERA",
-        "ACCESS_FINE_LOCATION",
-        "WRITE_EXTERNAL_STORAGE",
-        "INTERNET",
-        "READ_EXTERNAL_STORAGE",
-        "ACCESS_COARSE_LOCATION"
-      ],
-      "config": {
-        "googleMaps": {
-          "apiKey": "AIzaSyCJ0lsLkz4IEKzAdX_3iyz0cluhYCkFX_c"
-        }
       }
     },
     "web": {
