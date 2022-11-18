@@ -25,6 +25,20 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#000000"
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.CAMERA",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.INTERNET",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.ACCESS_COARSE_LOCATION"
+      ],
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyC2M0RQnYIwybkWvw4yjsb91AGqfchbbZQ"
+        }
       }
     },
     "web": {
@@ -40,7 +54,7 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "e0b28528-cfc3-4c6c-a8a3-a84dd7722688"
+        "projectId": "ea584258-00cb-4401-9d73-e1c86c95cbf7"
       }
     }
   }
